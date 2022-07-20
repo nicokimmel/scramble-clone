@@ -1,0 +1,10 @@
+.vs/
+.vscode/
+
+dist/Scramble
+dist/Scramble.exe
+
+CMakeLists.txt
+build/
+
+include/

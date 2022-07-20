@@ -1,0 +1,9 @@
+#ifndef SCRAMBLE_CONST_H
+#define SCRAMBLE_CONST_H
+
+#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 850
+
+#define TICKS_PER_SECOND 60
+
+#endif //SCRAMBLE_CONST_H
