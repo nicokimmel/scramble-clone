@@ -13,6 +13,9 @@ void Controller::init() {
 		auto &self = *static_cast<Controller*>(glfwGetWindowUserPointer(window));
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
+			if(key == GLFW_KEY_LEFT_CONTROL) {
+				self._currentLevel->spawn();
+			}
 		} else if(action == GLFW_RELEASE) {
 			self._input[key] = false;
 		}
@@ -40,7 +43,7 @@ void Controller::start() {
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
 			}
-			checkCollision();
+			//checkCollision();
 			checkPlayerState();
 			
 			tDelta--;
@@ -134,6 +137,7 @@ void Controller::checkCollision() {
 			if(std::find(checkedEntities.begin(), checkedEntities.end(), entity1) != checkedEntities.end()) {
 				continue;
 			}
+			
 			checkedEntities.push_back(entity1);
 			checkedEntities.push_back(entity2);
 			

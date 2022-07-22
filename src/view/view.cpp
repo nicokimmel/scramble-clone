@@ -35,6 +35,7 @@ View::View() {
 void View::init() {
 	buffer(std::make_unique<Player>(), 4);
 	buffer(std::make_unique<Rocket>(), 1);
+	buffer(std::make_unique<Missile>(), 1);
 }
 
 /**
@@ -88,6 +89,7 @@ void View::render(std::shared_ptr<Drawable> object) {
 	
 	glLoadIdentity();
 	glTranslatef(info.x, info.y, 0);
+	glRotatef(info.rotation, 0.0f, 0.0f, -1.0f);
 	
 	auto textureId = _textureBuffer[info.identifier]->next();
 	glBindTexture(GL_TEXTURE_2D, textureId);

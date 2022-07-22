@@ -10,11 +10,11 @@
 #include "../utils/vector2.h"
 
 enum EntityType {
-	NONE, PLAYER, ROCKET, UFO, METOR, FUEL, BASE
+	NONE, PLAYER, ROCKET, UFO, METOR, FUEL, BASE, MISSILE
 };
 
 static std::string EntityName[] = {
-	"none", "player", "rocket", "ufo", "meteor", "fuel", "base"
+	"none", "player", "rocket", "ufo", "meteor", "fuel", "base", "missile"
 };
 
 class Entity : public Drawable {
@@ -24,6 +24,7 @@ class Entity : public Drawable {
 		Vector2 _position;
 		Vector2 _velocity;
 		uint _speed;
+		int _rotation;
 		virtual void update() = 0;
 	public:
 		Entity();
@@ -38,6 +39,8 @@ class Entity : public Drawable {
 		void setVelocity(Vector2);
 		uint getSpeed();
 		void setSpeed(uint);
+		int getRotation();
+		void setRotation(int);
 		RenderInformation getRenderInformation();
 };
 
