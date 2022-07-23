@@ -41,6 +41,7 @@ class Level : public Drawable {
 		uint getScrollSpeed();
 		void setScrollSpeed(uint);
 		void spawn();
+		void despawn(std::shared_ptr<Entity>);
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();

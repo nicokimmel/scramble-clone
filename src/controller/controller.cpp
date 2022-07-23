@@ -42,8 +42,11 @@ void Controller::start() {
 			_currentLevel->update();
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
+				if(entity->hasCrashed()) {
+					_currentLevel->despawn(entity);
+				}
 			}
-			//checkCollision();
+			checkCollision();
 			checkPlayerState();
 			
 			tDelta--;
@@ -105,7 +108,7 @@ void Controller::checkPlayerState() {
 	auto player = _currentLevel->getPlayer();
 	int lives = player->getLives();
 	
-	if(player->hasFailed()) {
+	if(player->hasCrashed()) {
 		std::string levelName = _currentLevel->getName();
 		_currentLevel = _levelManager->load(levelName);
 		_currentLevel->getPlayer()->setLives(lives);
@@ -121,16 +124,22 @@ void Controller::checkPlayerState() {
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
 	auto pos = player->getPosition();
-	int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
+	/*int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
 	if(alpha > 100) {
 		player->onCollision(nullptr);
 		return;
-	}
+	}*/
 	
+	auto entityList = _currentLevel->getEntityList();
+	std::cout << entityList.size() << std::endl;
 	auto checkedEntities = std::vector<std::shared_ptr<Entity>>();
-	for(auto entity1 : _currentLevel->getEntityList()) {
-		for(auto entity2 : _currentLevel->getEntityList()) {
+	for(auto entity1 : entityList) {
+		for(auto entity2 : entityList) {
 			if(entity1 == entity2) {
+				continue;
+			}
+			
+			if(entity1->getType() == entity2->getType()) {
 				continue;
 			}
 			

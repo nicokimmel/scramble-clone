@@ -113,6 +113,12 @@ void Level::spawn() {
 	_entityList.push_back(missile);
 }
 
+void Level::despawn(std::shared_ptr<Entity> entity) {
+	for(auto entity : _entityList) {
+		std::remove(_entityList.begin(), _entityList.end(), entity);
+	}
+}
+
 /**
  * @brief Iteriert über alle Entitäten
  * @details Ruft übergebenen Callback mit Entität als Übergabeparameter auf.

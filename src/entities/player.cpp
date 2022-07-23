@@ -6,7 +6,6 @@ Player::Player() {
 	_position = Vector2(50, 300);
 	_speed = 3;
 	_lives = 3;
-	_failed = false;
 }
 
 void Player::update() {
@@ -17,14 +16,14 @@ void Player::onCollision(std::shared_ptr<Entity> collisionPartner) {
 	return;
 	
 	if(collisionPartner == nullptr) {
-		_failed = true;
+		_crashed = true;
 		_lives -= 1;
 		return;
 	}
 	
 	auto entityType = collisionPartner->getType();
 	if(entityType != EntityType::BASE && entityType != EntityType::FUEL && entityType != EntityType::MISSILE) {
-		_failed = true;
+		_crashed = true;
 		_lives -= 1;
 		return;
 	}
@@ -68,8 +67,4 @@ int Player::getLives() {
 
 void Player::setLives(int lives) {
 	_lives = lives;
-}
-
-bool Player::hasFailed() {
-	return _failed;
 }

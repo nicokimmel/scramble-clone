@@ -25,6 +25,7 @@ class Entity : public Drawable {
 		Vector2 _velocity;
 		uint _speed;
 		int _rotation;
+		bool _crashed;
 		virtual void update() = 0;
 	public:
 		Entity();
@@ -41,6 +42,7 @@ class Entity : public Drawable {
 		void setSpeed(uint);
 		int getRotation();
 		void setRotation(int);
+		bool hasCrashed();
 		RenderInformation getRenderInformation();
 };
 

@@ -2,9 +2,7 @@
 
 Missile::Missile() {
 	_type = EntityType::MISSILE;
-	_size = Vector2(32, 16);
-	_velocity = Vector2(1, -2);
-	_rotation = 0;
+	_size = Vector2(26, 17);
 	_ticks = 1;
 }
 
@@ -17,5 +15,9 @@ void Missile::update() {
 }
 
 void Missile::onCollision(std::shared_ptr<Entity> collisionPartner) {
-	
+	auto entityType = collisionPartner->getType();
+	if(entityType != EntityType::PLAYER) {
+		_crashed = true;
+		std::cout << "crash " << _ticks << std::endl;
+	}
 }

@@ -7,6 +7,7 @@ Entity::Entity() {
 	_speed = 0;
 	_size = 0;
 	_rotation = 0;
+	_crashed = false;
 }
 
 void Entity::updateEntity() {
@@ -56,6 +57,10 @@ int Entity::getRotation() {
 
 void Entity::setRotation(int rotation) {
 	_rotation = rotation;
+}
+
+bool Entity::hasCrashed() {
+	return _crashed;
 }
 
 RenderInformation Entity::getRenderInformation() {
