@@ -12,14 +12,14 @@ class Object {
         float _rotation;
 
     public:   
-        void setVelocity(Vector2);
-        void setPosition(Vector2);
+        virtual void setVelocity(Vector2) = 0;
+        virtual void setPosition(Vector2) = 0;
         void setMax(Vector2 max);
         void setMin(Vector2 min);
         void setRotation(float rotation);
 
-        Vector2 getVelocity();
-        Vector2 getPosition();
+        virtual Vector2 getVelocity() = 0;
+        virtual Vector2 getPosition() = 0;
         Vector2 getMax();
         Vector2 getMin();
         float getRotation();

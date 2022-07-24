@@ -39,7 +39,6 @@ void Controller::start() {
 			_currentLevel->update();
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
-				physics->move(*entity.get());
 			}
 			checkCollision();
 			checkPlayerState();
@@ -149,7 +148,7 @@ void Controller::checkCollision() {
 			//int entity2x = entity2->getPosition().getX() + entity2->getSize().getX();
 			//int entity2y = entity2->getPosition().getY() + entity2->getSize().getY();
 			
-			if(physics->checkCollision_Objects(*entity1.get(), *entity2.get())) {
+			if(physics->checkCollision_Objects(entity1.get(), entity2.get())) {
 				
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);

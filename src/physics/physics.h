@@ -10,13 +10,13 @@ class Physics {
 	private:
 
 	public:
-		bool checkCollision_Objects(Object a, Object b);
-        bool checkCollision_World(Object a, World b);
+		bool checkCollision_Objects(Object *a, Object *b);
+        bool checkCollision_World(Object *a, World *b);
         
-        void move(Object a);
-        void move(Object a, float vx, float vy);
-        void fall(Object a, float gravity, int timestep);
-        void rotate(Object a, float angle, int timestep);
+        void move(Object *a);
+        void move(Object *a, float vx, float vy);
+        void fall(Object *a, float gravity, int timestep);
+        void rotate(Object *a, float angle, int timestep);
 };
 
 
