@@ -8,6 +8,7 @@
 
 #include "../view/drawable.h"
 #include "../entities/player.h"
+#include "../entities/missile.h"
 
 typedef std::function<void(std::shared_ptr<Entity>)> entityCallback;
 
@@ -39,6 +40,7 @@ class Level : public Drawable {
 		void setOffset(uint);
 		uint getScrollSpeed();
 		void setScrollSpeed(uint);
+		void spawn();
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();

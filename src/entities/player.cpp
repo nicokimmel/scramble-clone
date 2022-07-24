@@ -14,6 +14,8 @@ void Player::update() {
 }
 
 void Player::onCollision(std::shared_ptr<Entity> collisionPartner) {
+	return;
+	
 	if(collisionPartner == nullptr) {
 		_failed = true;
 		_lives -= 1;
@@ -21,7 +23,7 @@ void Player::onCollision(std::shared_ptr<Entity> collisionPartner) {
 	}
 	
 	auto entityType = collisionPartner->getType();
-	if(entityType != EntityType::BASE && entityType != EntityType::FUEL) {
+	if(entityType != EntityType::BASE && entityType != EntityType::FUEL && entityType != EntityType::MISSILE) {
 		_failed = true;
 		_lives -= 1;
 		return;

@@ -18,6 +18,7 @@ struct RenderInformation {
 	uint height;
 	int x;
 	int y;
+	uint rotation;
 };
 
 /**

@@ -6,6 +6,7 @@ Entity::Entity() {
 	_velocity = Vector2(0, 0);
 	_speed = 0;
 	_size = 0;
+	_rotation = 0;
 }
 
 void Entity::updateEntity() {
@@ -49,6 +50,14 @@ void Entity::setSize(Vector2 size) {
 	_size = size;
 }
 
+int Entity::getRotation() {
+	return _rotation;
+}
+
+void Entity::setRotation(int rotation) {
+	_rotation = rotation;
+}
+
 RenderInformation Entity::getRenderInformation() {
 	RenderInformation info;
 	info.identifier = EntityName[_type];
@@ -56,5 +65,6 @@ RenderInformation Entity::getRenderInformation() {
 	info.height = _size.getY();
 	info.x = _position.getX();
 	info.y = _position.getY();
+	info.rotation = _rotation;
 	return info;
 }
