@@ -3,6 +3,8 @@
 
 #include "../utils/base.h"
 #include "../utils/const.h"
+#include "../physics/Object.h"
+#include "../physics/physics.h"
 
 #include <vector>
 
@@ -17,8 +19,9 @@ static std::string EntityName[] = {
 	"none", "player", "rocket", "ufo", "meteor", "fuel", "base"
 };
 
-class Entity : public Drawable {
+class Entity : public Drawable, public Object {
 	protected:
+		std::shared_ptr<Physics> physics;
 		EntityType _type;
 		Vector2 _size;
 		Vector2 _position;

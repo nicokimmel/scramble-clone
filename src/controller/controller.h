@@ -10,11 +10,14 @@
 #include "../levels/levelmanager.h"
 #include "../entities/player.h"
 #include "../view/view.h"
+#include "../physics/physics.h"
+#include "../physics/Object.h"
 
 class Player;
 
 class Controller {
 	private:
+		std::shared_ptr<Physics> physics;
 		bool _running;
 		int _ticks, _fps, _ups;
 		double _nextDebug;

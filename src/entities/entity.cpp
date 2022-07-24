@@ -9,7 +9,19 @@ Entity::Entity() {
 }
 
 void Entity::updateEntity() {
-	setPosition(getPosition().add(getVelocity()));
+	if(this->getType() != ROCKET) {
+		//physics->move(*this);
+	} else {
+		if (getPosition().getX() < 400) {
+			//physics->move(*this);
+		}
+	}
+
+	//physics->move(*this);
+	//this->setPosition(Vector2(this->getPosition().getX() + this->getVelocity().getX(), this->getPosition().getY() + this->getVelocity().getY()));
+	//(&(*this))->setPosition(Vector2(this->getPosition().getX() + this->getVelocity().getX(), this->getPosition().getY() + this->getVelocity().getY()));
+	
+	//setPosition(getPosition().add(getVelocity()));
 	update();
 }
 

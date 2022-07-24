@@ -39,6 +39,7 @@ void Controller::start() {
 			_currentLevel->update();
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
+				physics->move(*entity.get());
 			}
 			checkCollision();
 			checkPlayerState();
@@ -118,11 +119,11 @@ void Controller::checkPlayerState() {
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
 	auto pos = player->getPosition();
-	int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
-	if(alpha > 100) {
-		player->onCollision(nullptr);
-		return;
-	}
+	//int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
+	//if(alpha > 100) {
+		//player->onCollision(nullptr);
+		//return;
+	//}
 	
 	auto checkedEntities = std::vector<std::shared_ptr<Entity>>();
 	for(auto entity1 : _currentLevel->getEntityList()) {
@@ -136,15 +137,19 @@ void Controller::checkCollision() {
 			}
 			checkedEntities.push_back(entity1);
 			checkedEntities.push_back(entity2);
+
+			entity1->setMax(Vector2(entity1->getPosition().getX() + entity1->getSize().getX(), entity1->getPosition().getY() + entity1->getSize().getY()));
+			entity1->setMin(Vector2(entity1->getPosition().getX(), entity1->getPosition().getY()));
+			entity2->setMax(Vector2(entity2->getPosition().getX() + entity2->getSize().getX(), entity2->getPosition().getY() + entity2->getSize().getY()));
+			entity2->setMin(Vector2(entity2->getPosition().getX(), entity2->getPosition().getY()));
+
+			//int entity1x = entity1->getPosition().getX() + entity1->getSize().getX();
+			//int entity1y = entity1->getPosition().getY() + entity1->getSize().getY();
 			
-			int entity1x = entity1->getPosition().getX();
-			int entity1y = entity1->getPosition().getY();
+			//int entity2x = entity2->getPosition().getX() + entity2->getSize().getX();
+			//int entity2y = entity2->getPosition().getY() + entity2->getSize().getY();
 			
-			int entity2x = entity2->getPosition().getX();
-			int entity2y = entity2->getPosition().getY();
-			
-			if(((entity1x + entity1->getSize().getX()) >= entity2x) && (entity1x <= (entity2x + entity2->getSize().getX()))
-				&& ((entity1y + entity1->getSize().getY()) >= entity2y) && (entity1y <= (entity2y + entity2->getSize().getY()))) {
+			if(physics->checkCollision_Objects(*entity1.get(), *entity2.get())) {
 				
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
