@@ -14,12 +14,18 @@ bool Physics::checkCollision_World(Object *a, World *b) {
     return true;
 }
 
-void Physics::move(Object* a) {
+void Physics::move(Object *a) {
     a->setPosition(Vector2(a->getPosition().getX() + a->getVelocity().getX(), a->getPosition().getY() + a->getVelocity().getY()));
 }
 
-void move(Object *a, float vx, float vy) {
-    a->setPosition(Vector2(a->getPosition().getX() + a->getVelocity().getX() + vx, a->getPosition().getY() + a->getVelocity().getY() + vy));
+
+
+
+
+/*
+void Physics::accelerate(Object *a, float vx, float vy) {
+    a->setVelocity(Vector2(a->getVelocity().getX() + vx, a->getVelocity().getY() + vy));
+    a->setPosition(Vector2(a->getPosition().getX() + a->getVelocity().getX(), a->getPosition().getY() + a->getVelocity().getY()));
 }
 
 void Physics::fall(Object *a, float gravity, int timestep) {
@@ -27,5 +33,6 @@ void Physics::fall(Object *a, float gravity, int timestep) {
 }
 
 void Physics::rotate(Object *a, float angle, int timestep) {
-   // a.setRotation(std::min(timestep > 20 ? 120 * ((timestep - 20.0f) / (timestep - 1.0f)) : 0.0f, angle));
+    a->setRotation(timestep > 20 ? angle * ((timestep - 20.0f) / (timestep - 1.0f)) : 0.0f);
 }
+*/

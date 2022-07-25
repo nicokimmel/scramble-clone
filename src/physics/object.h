@@ -16,13 +16,13 @@ class Object {
         virtual void setPosition(Vector2) = 0;
         void setMax(Vector2 max);
         void setMin(Vector2 min);
-        void setRotation(float rotation);
+        virtual void setRotation(int rotation) = 0;
 
         virtual Vector2 getVelocity() = 0;
         virtual Vector2 getPosition() = 0;
         Vector2 getMax();
         Vector2 getMin();
-        float getRotation();
+        virtual int getRotation() = 0;
 
 };
 

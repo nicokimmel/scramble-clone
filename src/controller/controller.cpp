@@ -142,6 +142,7 @@ void Controller::checkCollision() {
 			if(physics->checkCollision_Objects(playerEntitys.get(), entity2.get())) {
 				playerEntitys->onCollision(entity2);
 				entity2->onCollision(player);
+				std::cout << "asd" << std::endl;
 			}
 		}
 	}

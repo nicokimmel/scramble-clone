@@ -15,17 +15,21 @@ void Object::setMax(Vector2 max) {
 void Object::setMin(Vector2 min) {
     _min = min;
 }
-
+/*
 void Object::setRotation(float rotation) {
     _rotation = rotation;
 }
-/*
+
 Vector2 Object::getVelocity() {
     return _v;
 }
 
 Vector2 Object::getPosition() {
     return _pos;
+}
+
+float Object::getRotation() {
+    return _rotation;
 }
 */
 Vector2 Object::getMax() {
@@ -36,6 +40,3 @@ Vector2 Object::getMin() {
     return _min;
 }
 
-float Object::getRotation() {
-    return _rotation;
-}
