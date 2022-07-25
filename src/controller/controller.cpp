@@ -4,7 +4,7 @@ Controller::Controller(std::shared_ptr<View> view) {
 	_view = view;
 	_eventManager = std::make_shared<EventManager>();
 	_levelManager = std::make_shared<LevelManager>(view);
-	_currentLevel = _levelManager->load("stageone");
+	_currentLevel = _levelManager->load("stageonesmall");
 }
 
 void Controller::init() {
