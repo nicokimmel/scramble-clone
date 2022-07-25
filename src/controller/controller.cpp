@@ -43,7 +43,7 @@ void Controller::start() {
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
 			}
-			//checkCollision();
+			checkCollision();
 			checkPlayerState();
 			
 			tDelta--;
@@ -121,42 +121,29 @@ void Controller::checkPlayerState() {
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
 	auto pos = player->getPosition();
-	//int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
-	//if(alpha > 100) {
-		//player->onCollision(nullptr);
-		//return;
-	//}
 	
-	auto checkedEntities = std::vector<std::shared_ptr<Entity>>();
-	for(auto entity1 : _currentLevel->getEntityList()) {
-		for(auto entity2 : _currentLevel->getEntityList()) {
-			if(entity1 == entity2) {
-				continue;
-			}
-			
-			if(std::find(checkedEntities.begin(), checkedEntities.end(), entity1) != checkedEntities.end()) {
-				continue;
-			}
-			
-			checkedEntities.push_back(entity1);
-			checkedEntities.push_back(entity2);
+	std::vector<std::shared_ptr<Entity>> playerslist = std::vector<std::shared_ptr<Entity>>();
+	std::vector<std::shared_ptr<Entity>> entitiesList2 = std::vector<std::shared_ptr<Entity>>();
+	for(std::shared_ptr<Entity> entity : _currentLevel->getEntityList()) {
+		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE) {
+			entitiesList2.push_back(entity);
+		} else {
+			playerslist.push_back(entity);
+		}
+	}
 
-			entity1->setMax(Vector2(entity1->getPosition().getX() + entity1->getSize().getX(), entity1->getPosition().getY() + entity1->getSize().getY()));
-			entity1->setMin(Vector2(entity1->getPosition().getX(), entity1->getPosition().getY()));
+	for(auto playerEntitys : playerslist) {
+		for(auto entity2 : entitiesList2) {
+			playerEntitys->setMax(Vector2(playerEntitys->getPosition().getX() + playerEntitys->getSize().getX(), playerEntitys->getPosition().getY() + playerEntitys->getSize().getY()));
+			playerEntitys->setMin(Vector2(playerEntitys->getPosition().getX(), playerEntitys->getPosition().getY()));
 			entity2->setMax(Vector2(entity2->getPosition().getX() + entity2->getSize().getX(), entity2->getPosition().getY() + entity2->getSize().getY()));
 			entity2->setMin(Vector2(entity2->getPosition().getX(), entity2->getPosition().getY()));
 
-			//int entity1x = entity1->getPosition().getX() + entity1->getSize().getX();
-			//int entity1y = entity1->getPosition().getY() + entity1->getSize().getY();
-			
-			//int entity2x = entity2->getPosition().getX() + entity2->getSize().getX();
-			//int entity2y = entity2->getPosition().getY() + entity2->getSize().getY();
-			
-			if(physics->checkCollision_Objects(entity1.get(), entity2.get())) {
-				
-				entity1->onCollision(entity2);
-				entity2->onCollision(entity1);
+			if(physics->checkCollision_Objects(playerEntitys.get(), entity2.get())) {
+				playerEntitys->onCollision(entity2);
+				entity2->onCollision(player);
 			}
 		}
 	}
+	
 }

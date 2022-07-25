@@ -1,6 +1,6 @@
 #ifndef SCRAMBLE_CONTROLLER_H
 #define SCRAMBLE_CONTROLLER_H
-
+#include <iostream>
 #include "../utils/base.h"
 
 #include <map>
@@ -12,6 +12,8 @@
 #include "../view/view.h"
 #include "../physics/physics.h"
 #include "../physics/Object.h"
+
+#include <algorithm>
 
 class Player;
 
