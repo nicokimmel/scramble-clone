@@ -34,7 +34,7 @@ View::View() {
  */
 void View::init() {
 	buffer(std::make_unique<Player>(), 4);
-	buffer(std::make_unique<Rocket>(), 1);
+	buffer(std::make_unique<Rocket>(), 2);
 }
 
 /**

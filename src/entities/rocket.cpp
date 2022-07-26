@@ -2,7 +2,7 @@
 
 Rocket::Rocket() {
 	_type = EntityType::ROCKET;
-	_size = Vector2(28, 64);
+	_size = Vector2(28, 72);
 	_velocity = Vector2(0, 2);
 }
 
