@@ -31,9 +31,6 @@ Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::s
  */
 void Level::update() {
 	_offset += _scrollSpeed;
-	if(_offset >= (_width - WINDOW_WIDTH)) {
-		_offset = 0;
-	}
 }
 
 /**

@@ -23,7 +23,7 @@ class Texture {
 		uint _width;
 		uint _height;
 		std::vector<GLuint> _spriteList;
-		uint _currentSprite;
+		uint _currentSprite = 0;
 		void generate(GLuint, char*);
 		void buffer(const char*, uint, uint*, uint*);
 	public:

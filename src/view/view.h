@@ -9,6 +9,7 @@
 #include "../textures/texture.h"
 #include "../entities/entity.h"
 #include "../entities/rocket.h"
+#include "../entities/fuel.h"
 #include "../levels/level.h"
 
 /**

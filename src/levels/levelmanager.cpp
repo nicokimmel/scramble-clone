@@ -49,13 +49,24 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 		int x = byte_to_int16(entityBuffer, 4);
 		int y = byte_to_int16(entityBuffer, 8);
 		
-		auto rocket = std::make_shared<Rocket>();
-		rocket->setPosition(Vector2(x, y));
-		rocket->setVelocity(rocket->getVelocity().add(-scrollSpeed, 0));
+		std::shared_ptr<Entity> entity;
+
+		switch(type) {
+			default:
+			case 1:
+				entity = std::make_shared<Rocket>();
+				break;
+			case 2:
+				entity = std::make_shared<Fuel>();
+				break;
+		}
+
+		entity->setPosition(Vector2(x, y));
+		entity->setVelocity(entity->getVelocity().add(-scrollSpeed, 0));
 		
 		std::cout << "[LevelManager] loaded entity: type#" << type << " x#" << x << " y#" << y << std::endl;
 		
-		entityList.push_back(rocket);
+		entityList.push_back(entity);
 	}
 		
 	// Speicher wird von der Texturenklasse
