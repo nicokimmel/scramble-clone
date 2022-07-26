@@ -42,7 +42,7 @@ void Controller::start() {
 			}
 			checkCollision();
 			checkPlayerState();
-			
+
 			tDelta--;
 			
 			_ups++;
@@ -118,8 +118,9 @@ void Controller::checkPlayerState() {
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
 	auto pos = player->getPosition();
-	int alpha = _currentLevel->getCollisionMap(pos.getX(), pos.getY());
-	if(alpha > 100) {
+	int alpha = _currentLevel->getAlpha(pos.getX(), pos.getY());
+	std::cout << alpha << std::endl;
+	if(alpha == 255) {
 		player->onCollision(nullptr);
 		return;
 	}

@@ -42,7 +42,7 @@ class Level : public Drawable {
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();
-		int getCollisionMap(int, int);
+		int getAlpha(int, int);
 		RenderInformation getRenderInformation();
 };
 
