@@ -33,9 +33,11 @@ View::View() {
  * @todo Auslagern
  */
 void View::init() {
-	buffer(std::make_unique<Player>(), 4);
-	buffer(std::make_unique<Rocket>(), 2);
-	buffer(std::make_unique<Fuel>(), 1);
+	_spriteList["player"] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/player.bmp");
+	_spriteList["laser"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/laser.bmp");
+	_spriteList["rocket"] = SpriteInformation(AnimationType::ONCE, 2, "./assets/rocket.bmp");
+	_spriteList["building"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/building.bmp");
+	_spriteList["fuel"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
 }
 
 /**
@@ -45,10 +47,13 @@ void View::init() {
  * 
  * @param object Drawable Objekt
  */
-void View::buffer(std::shared_ptr<Drawable> object, uint spriteCount) {
+void View::buffer(std::shared_ptr<Drawable> object) {
 	auto info = object->getRenderInformation();
-	auto file = "./assets/" + info.identifier + ".bmp";
-	auto texture = std::make_shared<Texture>(file.c_str(), spriteCount);
+	auto spriteFile = _spriteList[info.identifier].spriteFile;
+	auto spriteCount = _spriteList[info.identifier].spriteCount;
+	auto texture = std::make_shared<Texture>(spriteFile.c_str(), spriteCount);
+	auto animationType = _spriteList[info.identifier].animationType;
+	texture->setAnimationType(animationType);
 	buffer(object, texture);
 }
 
@@ -63,7 +68,7 @@ void View::buffer(std::shared_ptr<Drawable> object, uint spriteCount) {
  */
 void View::buffer(std::shared_ptr<Drawable> object, std::shared_ptr<Texture> texture) {
 	auto info = object->getRenderInformation();
-	_textureBuffer[info.identifier] = texture;
+	_textureBuffer[object] = texture;
 	
 	Vertex vertices[] = {
 		{{0.0f, 0.0f, 0.0f},				{0.0f, 0.0f}},
@@ -76,7 +81,7 @@ void View::buffer(std::shared_ptr<Drawable> object, std::shared_ptr<Texture> tex
 	glGenBuffers(1, &vertexBufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	_vertexBuffer[info.identifier] = vertexBufferId;
+	_vertexBuffer[object] = vertexBufferId;
 }
 
 /**
@@ -90,17 +95,25 @@ void View::render(std::shared_ptr<Drawable> object) {
 	glLoadIdentity();
 	glTranslatef(info.x, info.y, 0);
 	
-	auto textureId = _textureBuffer[info.identifier]->next();
+	auto textureId = _textureBuffer[object]->next();
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (GLvoid*)offsetof(Vertex, textureCoordinates));
 	
-	auto vertexId = _vertexBuffer[info.identifier];
+	auto vertexId = _vertexBuffer[object];
 	glBindBuffer(GL_ARRAY_BUFFER, vertexId);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (GLvoid*)offsetof(Vertex, positionCoordinates));
 	
 	glDrawArrays(GL_QUADS, 0, 4);
+}
+
+void View::startAnimation(std::shared_ptr<Drawable> drawable) {
+	_textureBuffer[drawable]->toggleAnimation(true);
+}
+
+void View::stopAnimation(std::shared_ptr<Drawable> drawable) {
+	_textureBuffer[drawable]->toggleAnimation(false);
 }
 
 /**

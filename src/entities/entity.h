@@ -10,11 +10,11 @@
 #include "../utils/vector2.h"
 
 enum EntityType {
-	NONE, PLAYER, ROCKET, UFO, METOR, FUEL, BASE
+	NONE, PLAYER, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE
 };
 
 static std::string EntityName[] = {
-	"none", "player", "rocket", "ufo", "meteor", "fuel", "base"
+	"none", "player", "rocket", "building", "ufo", "meteor", "fuel", "base"
 };
 
 class Entity : public Drawable {

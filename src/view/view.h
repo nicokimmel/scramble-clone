@@ -28,14 +28,17 @@ struct Vertex {
 class View {
 	private:
 		GLFWwindow* _window;
-		std::map<std::string, std::shared_ptr<Texture>> _textureBuffer;
-		std::map<std::string, GLuint> _vertexBuffer;
+		std::map<std::shared_ptr<Drawable>, std::shared_ptr<Texture>> _textureBuffer;
+		std::map<std::shared_ptr<Drawable>, GLuint> _vertexBuffer;
+		std::map<std::string, SpriteInformation> _spriteList;
 	public:
 		View();
 		void init();
-		void buffer(std::shared_ptr<Drawable>, uint);
+		void buffer(std::shared_ptr<Drawable>);
 		void buffer(std::shared_ptr<Drawable>, std::shared_ptr<Texture>);
 		void render(std::shared_ptr<Drawable>);
+		void startAnimation(std::shared_ptr<Drawable>);
+		void stopAnimation(std::shared_ptr<Drawable>);
 		void clear();
 		void flip();
 		GLFWwindow* getWindow();

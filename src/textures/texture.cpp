@@ -123,15 +123,38 @@ uint Texture::getHeight() const {
 	return _height;
 }
 
+void Texture::setAnimationType(AnimationType type) {
+	_animationType = type;
+}
+
+void Texture::toggleAnimation(bool running) {
+	_animationRunning = running;
+}
+
 /**
  * @brief Gibt nächste TextureID (der Animation) zurück
  * 
  * @return TextureID
  */
 GLuint Texture::next() {
-	_currentSprite += 1;
-	if(_currentSprite >= _spriteList.size() * 10) {
-		_currentSprite = 0;
+	uint spriteCount = _spriteList.size();
+
+	if(_animationType == AnimationType::STATIC) {
+		return _spriteList[spriteCount - 1];
 	}
-	return _spriteList[_currentSprite / 10];
+
+	if(_animationType == AnimationType::ONCE) {
+		if(_animationRunning && _currentSprite < spriteCount) {
+			_currentSprite += 1;
+		}
+		return _spriteList[spriteCount - _currentSprite - 1];
+	}
+
+	if(_animationType == AnimationType::REPEAT) {
+		_currentSprite += 1;
+		if(_currentSprite >= spriteCount * 10) {
+			_currentSprite = 0;
+		}
+		return _spriteList[spriteCount - _currentSprite/10 - 1];
+	}
 }

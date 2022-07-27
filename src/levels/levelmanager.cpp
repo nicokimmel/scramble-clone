@@ -37,6 +37,8 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 	int entityCount = byte_to_int16(headerBuffer, 14);
 	
 	auto player = std::make_shared<Player>();
+	_view->buffer(player);
+	_view->startAnimation(player);
 	
 	auto entityList = std::vector<std::shared_ptr<Entity>>();
 	entityList.push_back(player);
@@ -63,6 +65,7 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 
 		entity->setPosition(Vector2(x, y));
 		entity->setVelocity(entity->getVelocity().add(-scrollSpeed, 0));
+		_view->buffer(entity);
 		
 		std::cout << "[LevelManager] loaded entity: type#" << type << " x#" << x << " y#" << y << std::endl;
 		

@@ -14,8 +14,8 @@
  */
 struct RenderInformation {
 	std::string identifier;
-	uint width;
-	uint height;
+	int width;
+	int height;
 	int x;
 	int y;
 };

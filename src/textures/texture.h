@@ -10,6 +10,16 @@
 #include <fstream>
 #include <vector>
 
+enum AnimationType {
+	STATIC, ONCE, REPEAT
+};
+
+struct SpriteInformation {
+	AnimationType animationType;
+	uint spriteCount;
+	std::string spriteFile;
+};
+
 /**
  * @brief Hält Informationen über eine Textur
  * @details Bietet Funktionen um Bitmaps intern zu verwalten und
@@ -24,6 +34,8 @@ class Texture {
 		uint _height;
 		std::vector<GLuint> _spriteList;
 		uint _currentSprite = 0;
+		AnimationType _animationType = AnimationType::STATIC;
+		bool _animationRunning = false;
 		void generate(GLuint, char*);
 		void buffer(const char*, uint, uint*, uint*);
 	public:
@@ -31,6 +43,8 @@ class Texture {
 		Texture(const char*, uint);
 		uint getWidth() const;
 		uint getHeight() const;
+		void setAnimationType(AnimationType);
+		void toggleAnimation(bool);
 		GLuint next();
 };
 
