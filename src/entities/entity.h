@@ -3,6 +3,8 @@
 
 #include "../utils/base.h"
 #include "../utils/const.h"
+#include "../physics/object.h"
+#include "../physics/physics.h"
 
 #include <vector>
 
@@ -10,20 +12,22 @@
 #include "../utils/vector2.h"
 
 enum EntityType {
-	NONE, PLAYER, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE
+	NONE, PLAYER, LASER, MISSILE, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE
 };
 
 static std::string EntityName[] = {
-	"none", "player", "rocket", "building", "ufo", "meteor", "fuel", "base"
+	"none", "player", "laser", "missile", "rocket", "building", "ufo", "meteor", "fuel", "base"
 };
 
-class Entity : public Drawable {
+class Entity : public Drawable, public Object {
 	protected:
+		std::shared_ptr<Physics> physics;
 		EntityType _type;
 		Vector2 _size;
 		Vector2 _position;
 		Vector2 _velocity;
 		uint _speed;
+		int _rotation;
 		virtual void update() = 0;
 	public:
 		Entity();
@@ -38,6 +42,8 @@ class Entity : public Drawable {
 		void setVelocity(Vector2);
 		uint getSpeed();
 		void setSpeed(uint);
+		int getRotation();
+		void setRotation(int);
 		RenderInformation getRenderInformation();
 };
 

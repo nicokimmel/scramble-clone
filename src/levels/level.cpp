@@ -102,6 +102,14 @@ void Level::setScrollSpeed(uint scrollSpeed) {
 	_scrollSpeed = scrollSpeed;
 }
 
+void Level::spawn() {
+	auto missile = std::make_shared<Missile>();
+	auto pos = _player->getPosition();
+	pos = pos.add(Vector2(_player->getSize().getX() / 2 - missile->getSize().getX() / 2, -_player->getSize().getY() / 2));
+	missile->setPosition(pos);
+	_entityList.push_back(missile);
+}
+
 /**
  * @brief Iteriert über alle Entitäten
  * @details Ruft übergebenen Callback mit Entität als Übergabeparameter auf.
@@ -146,6 +154,7 @@ RenderInformation Level::getRenderInformation() {
 	info.height = _height * 2;
 	info.x = _offset * -1;
 	info.y = 0;
+	info.rotation = 0;
 	return info;
 }
 

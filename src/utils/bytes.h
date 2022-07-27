@@ -12,18 +12,18 @@
  * @return Auszulesener 16 Bit Integer
  */
 inline int16_t byte_to_int16(char* buffer, int offset) {
-	auto byte = std::make_shared<char[]>(4);
-	byte[0] = buffer[offset];
-	byte[1] = buffer[offset + 1];
-	byte[2] = buffer[offset + 2];
-	byte[3] = buffer[offset + 3];
-	return *std::reinterpret_pointer_cast<int16_t>(byte).get();
+	auto byte = new char[4];
+    byte[0] = buffer[offset];
+    byte[1] = buffer[offset + 1];
+    byte[2] = buffer[offset + 2];
+    byte[3] = buffer[offset + 3];
+    return *reinterpret_cast<int16_t*>(byte);
 }
 
-inline u_int8_t byte_to_uint8(char* buffer, int offset) {
-	auto byte = std::make_shared<char[]>(1);
-	byte[0] = buffer[offset];
-	return *std::reinterpret_pointer_cast<u_int8_t>(byte).get();
+inline uint8_t byte_to_uint8(char* buffer, int offset) {
+	auto byte = new char[1];
+    byte[0] = buffer[offset];
+    return *reinterpret_cast<uint8_t*>(byte);
 }
 
 #endif //SCRAMBLE_BYTES_H

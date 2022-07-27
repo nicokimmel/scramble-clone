@@ -35,6 +35,7 @@ View::View() {
 void View::init() {
 	_spriteList["player"] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/player.bmp");
 	_spriteList["laser"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/laser.bmp");
+	_spriteList["missile"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
 	_spriteList["rocket"] = SpriteInformation(AnimationType::ONCE, 2, "./assets/rocket.bmp");
 	_spriteList["building"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/building.bmp");
 	_spriteList["fuel"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
@@ -94,6 +95,7 @@ void View::render(std::shared_ptr<Drawable> object) {
 	
 	glLoadIdentity();
 	glTranslatef(info.x, info.y, 0);
+	glRotatef(info.rotation, 0.0f, 0.0f, -1.0f);
 	
 	auto textureId = _textureBuffer[object]->next();
 	glBindTexture(GL_TEXTURE_2D, textureId);

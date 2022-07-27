@@ -7,7 +7,9 @@
 #include <vector>
 
 #include "../view/drawable.h"
+#include "../physics/world.h"
 #include "../entities/player.h"
+#include "../entities/missile.h"
 
 typedef std::function<void(std::shared_ptr<Entity>)> entityCallback;
 
@@ -19,7 +21,7 @@ typedef std::function<void(std::shared_ptr<Entity>)> entityCallback;
  * 
  * @see LevelManager::load()
  */
-class Level : public Drawable {
+class Level : public Drawable, public World {
 	protected:
 		std::string _name;
 		uint _width;
@@ -39,11 +41,13 @@ class Level : public Drawable {
 		void setOffset(uint);
 		uint getScrollSpeed();
 		void setScrollSpeed(uint);
+		void spawn();
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();
 		int getAlpha(int, int);
 		RenderInformation getRenderInformation();
+		int getLevelAlpha(int x, int y);
 };
 
 #endif //SCRAMBLE_LEVEL_H

@@ -1,6 +1,6 @@
 #ifndef SCRAMBLE_CONTROLLER_H
 #define SCRAMBLE_CONTROLLER_H
-
+#include <iostream>
 #include "../utils/base.h"
 
 #include <map>
@@ -10,11 +10,16 @@
 #include "../levels/levelmanager.h"
 #include "../entities/player.h"
 #include "../view/view.h"
+#include "../physics/physics.h"
+#include "../physics/object.h"
+
+#include <algorithm>
 
 class Player;
 
 class Controller {
 	private:
+		std::shared_ptr<Physics> physics;
 		bool _running;
 		int _ticks, _fps, _ups;
 		double _nextDebug;

@@ -13,6 +13,9 @@ void Controller::init() {
 		auto &self = *static_cast<Controller*>(glfwGetWindowUserPointer(window));
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
+			if(key == GLFW_KEY_LEFT_CONTROL) {
+				self._currentLevel->spawn();
+			}
 		} else if(action == GLFW_RELEASE) {
 			self._input[key] = false;
 		}
@@ -117,39 +120,35 @@ void Controller::checkPlayerState() {
 
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
-	auto pos = player->getPosition();
-	int alpha = _currentLevel->getAlpha(pos.getX(), pos.getY());
-	std::cout << alpha << std::endl;
-	if(alpha == 255) {
-		player->onCollision(nullptr);
-		return;
-	}
-	
-	auto checkedEntities = std::vector<std::shared_ptr<Entity>>();
-	for(auto entity1 : _currentLevel->getEntityList()) {
-		for(auto entity2 : _currentLevel->getEntityList()) {
-			if(entity1 == entity2) {
-				continue;
-			}
-			
-			if(std::find(checkedEntities.begin(), checkedEntities.end(), entity1) != checkedEntities.end()) {
-				continue;
-			}
-			checkedEntities.push_back(entity1);
-			checkedEntities.push_back(entity2);
-			
-			int entity1x = entity1->getPosition().getX();
-			int entity1y = entity1->getPosition().getY();
-			
-			int entity2x = entity2->getPosition().getX();
-			int entity2y = entity2->getPosition().getY();
-			
-			if(((entity1x + entity1->getSize().getX()) >= entity2x) && (entity1x <= (entity2x + entity2->getSize().getX()))
-				&& ((entity1y + entity1->getSize().getY()) >= entity2y) && (entity1y <= (entity2y + entity2->getSize().getY()))) {
-				
-				entity1->onCollision(entity2);
-				entity2->onCollision(entity1);
-			}
+
+	std::vector<std::shared_ptr<Entity>> playersList = std::vector<std::shared_ptr<Entity>>();
+	std::vector<std::shared_ptr<Entity>> entitiesList2 = std::vector<std::shared_ptr<Entity>>();
+	for(std::shared_ptr<Entity> entity : _currentLevel->getEntityList()) {
+		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE) {
+			entitiesList2.push_back(entity);
+		} else {
+			playersList.push_back(entity);
 		}
 	}
+
+	for(auto playerEntitys : playersList) {
+		playerEntitys->setMax(Vector2(playerEntitys->getPosition().getX() + playerEntitys->getSize().getX(), playerEntitys->getPosition().getY() + playerEntitys->getSize().getY()));
+		playerEntitys->setMin(Vector2(playerEntitys->getPosition().getX(), playerEntitys->getPosition().getY()));
+		for(auto entity2 : entitiesList2) {
+			entity2->setMax(Vector2(entity2->getPosition().getX() + entity2->getSize().getX(), entity2->getPosition().getY() + entity2->getSize().getY()));
+			entity2->setMin(Vector2(entity2->getPosition().getX(), entity2->getPosition().getY()));
+
+			if(physics->checkCollision_Objects(playerEntitys.get(), entity2.get())) {
+				playerEntitys->onCollision(entity2);
+				entity2->onCollision(player);
+				std::cout << "Colission Entity" << std::endl;
+			}
+		}
+
+		if(physics->checkCollision_World(playerEntitys.get(), _currentLevel.get())) {
+			std::cout << "Colission World" << std::endl;
+		}
+
+	}
+	
 }

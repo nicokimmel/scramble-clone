@@ -157,4 +157,6 @@ GLuint Texture::next() {
 		}
 		return _spriteList[spriteCount - _currentSprite/10 - 1];
 	}
+
+	return 0;
 }
