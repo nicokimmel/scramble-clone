@@ -133,18 +133,23 @@ void Controller::checkCollision() {
 	}
 
 	for(auto playerEntitys : playerslist) {
+		playerEntitys->setMax(Vector2(playerEntitys->getPosition().getX() + playerEntitys->getSize().getX(), playerEntitys->getPosition().getY() + playerEntitys->getSize().getY()));
+		playerEntitys->setMin(Vector2(playerEntitys->getPosition().getX(), playerEntitys->getPosition().getY()));
 		for(auto entity2 : entitiesList2) {
-			playerEntitys->setMax(Vector2(playerEntitys->getPosition().getX() + playerEntitys->getSize().getX(), playerEntitys->getPosition().getY() + playerEntitys->getSize().getY()));
-			playerEntitys->setMin(Vector2(playerEntitys->getPosition().getX(), playerEntitys->getPosition().getY()));
 			entity2->setMax(Vector2(entity2->getPosition().getX() + entity2->getSize().getX(), entity2->getPosition().getY() + entity2->getSize().getY()));
 			entity2->setMin(Vector2(entity2->getPosition().getX(), entity2->getPosition().getY()));
 
 			if(physics->checkCollision_Objects(playerEntitys.get(), entity2.get())) {
 				playerEntitys->onCollision(entity2);
 				entity2->onCollision(player);
-				std::cout << "asd" << std::endl;
+				std::cout << "Colission Entity" << std::endl;
 			}
 		}
+
+		if(physics->checkCollision_World(playerEntitys.get(), _currentLevel.get())) {
+			std::cout << "Colission World" << std::endl;
+		}
+
 	}
 	
 }

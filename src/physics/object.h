@@ -9,7 +9,6 @@ class Object {
         Vector2 _pos;
         Vector2 _max;
         Vector2 _min;
-        float _rotation;
 
     public:   
         virtual void setVelocity(Vector2) = 0;

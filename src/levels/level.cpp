@@ -161,7 +161,7 @@ RenderInformation Level::getRenderInformation() {
 	return info;
 }
 
-int Level::getCollisionMap(int x, int y) {
+int Level::getLevelAlpha(int x, int y) {
 	if(x < 0) {
 		x = 0;
 	}
@@ -169,5 +169,9 @@ int Level::getCollisionMap(int x, int y) {
 		y = 0;
 	}
 	x += _offset;
+
+	x = x/2;
+    y = y/2;
+
 	return _collisionMap[y * _width + x];
 }
