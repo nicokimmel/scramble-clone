@@ -21,6 +21,9 @@ void Physics::move(Object *a) {
     a->setPosition(Vector2(a->getPosition().getX() + a->getVelocity().getX(), a->getPosition().getY() + a->getVelocity().getY()));
 }
 
+void Physics::move(Object *a, int vx, int vy) {
+    a->setPosition(Vector2(a->getPosition().getX() + a->getVelocity().getX() + vx, a->getPosition().getY() + a->getVelocity().getY() + vy));
+}
 /*
 void Physics::accelerate(Object *a, float vx, float vy) {
     a->setVelocity(Vector2(a->getVelocity().getX() + vx, a->getVelocity().getY() + vy));

@@ -1,7 +1,7 @@
 #ifndef SCRAMBLE_OBJECT_H
 #define SCRAMBLE_OBJECT_H
 
-#include "../utils/vector2.h"
+#include "../physics/vector2.h"
 
 class Object {
     private:

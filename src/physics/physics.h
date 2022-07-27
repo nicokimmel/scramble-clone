@@ -14,7 +14,7 @@ class Physics {
         bool checkCollision_World(Object *a, World *b);
         
         void move(Object *a);
-        void accelerate(Object *a, float vx, float vy);
+        void move(Object *a, int vx, int vy);
         void fall(Object *a, float gravity, int timestep);
         void rotate(Object *a, float angle, int timestep);
 };

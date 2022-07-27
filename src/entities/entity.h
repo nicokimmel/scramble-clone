@@ -3,13 +3,12 @@
 
 #include "../utils/base.h"
 #include "../utils/const.h"
-#include "../physics/object.h"
-#include "../physics/physics.h"
 
 #include <vector>
 
 #include "../view/drawable.h"
-#include "../utils/vector2.h"
+#include "../physics/object.h"
+#include "../physics/physics.h"
 
 enum EntityType {
 	NONE, PLAYER, LASER, MISSILE, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE
@@ -28,6 +27,7 @@ class Entity : public Drawable, public Object {
 		Vector2 _velocity;
 		uint _speed;
 		int _rotation;
+		bool _crashed;
 		virtual void update() = 0;
 	public:
 		Entity();
@@ -44,6 +44,7 @@ class Entity : public Drawable, public Object {
 		void setSpeed(uint);
 		int getRotation();
 		void setRotation(int);
+		bool hasCrashed();
 		RenderInformation getRenderInformation();
 };
 

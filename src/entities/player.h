@@ -10,7 +10,6 @@
 class Player : public Entity {
 	private:
 		int _lives;
-		bool _failed;
 	public:
 		Player();
 		void update();
@@ -21,7 +20,6 @@ class Player : public Entity {
 		void moveRight();
 		int getLives();
 		void setLives(int);
-		bool hasFailed();
 };
 
 #endif //SCRAMBLE_PLAYER_H

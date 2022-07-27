@@ -33,12 +33,38 @@ View::View() {
  * @todo Auslagern
  */
 void View::init() {
-	_spriteList["player"] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/player.bmp");
-	_spriteList["laser"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/laser.bmp");
-	_spriteList["missile"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
-	_spriteList["rocket"] = SpriteInformation(AnimationType::ONCE, 2, "./assets/rocket.bmp");
-	_spriteList["building"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/building.bmp");
-	_spriteList["fuel"] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
+	SpriteInformation sp;
+
+	sp.animationType = AnimationType::REPEAT;
+	sp.spriteCount = 4;
+	sp.spriteFile = "./assets/player.bmp";
+	_spriteList["player"] = sp;
+
+	sp.animationType = AnimationType::STATIC;
+	sp.spriteCount = 1;
+	sp.spriteFile = "./assets/laser.bmp";
+	_spriteList["laser"] = sp;
+
+	sp.animationType = AnimationType::ONCE;
+	sp.spriteCount = 1;
+	sp.spriteFile = "./assets/missile.bmp";
+	_spriteList["missile"] = sp;
+
+	sp.animationType = AnimationType::ONCE;
+	sp.spriteCount = 2;
+	sp.spriteFile = "./assets/rocket.bmp";
+	_spriteList["rocket"] = sp;
+
+	sp.animationType = AnimationType::STATIC;
+	sp.spriteCount = 1;
+	sp.spriteFile = "./assets/building.bmp";
+	_spriteList["building"] = sp;
+
+	sp.animationType = AnimationType::STATIC;
+	sp.spriteCount = 1;
+	sp.spriteFile = "./assets/fuel.bmp";
+	_spriteList["fuel"] = sp;
+
 }
 
 /**

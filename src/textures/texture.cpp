@@ -150,12 +150,13 @@ GLuint Texture::next() {
 		return _spriteList[spriteCount - _currentSprite - 1];
 	}
 
+	int const c = 20;
 	if(_animationType == AnimationType::REPEAT) {
 		_currentSprite += 1;
-		if(_currentSprite >= spriteCount * 10) {
+		if(_currentSprite >= spriteCount * c) {
 			_currentSprite = 0;
 		}
-		return _spriteList[spriteCount - _currentSprite/10 - 1];
+		return _spriteList[spriteCount - _currentSprite/c - 1];
 	}
 
 	return 0;

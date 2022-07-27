@@ -14,7 +14,7 @@ void Controller::init() {
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
 			if(key == GLFW_KEY_LEFT_CONTROL) {
-				self._currentLevel->spawn();
+				self._view->buffer(self._currentLevel->spawn());
 			}
 		} else if(action == GLFW_RELEASE) {
 			self._input[key] = false;
@@ -40,8 +40,13 @@ void Controller::start() {
 		while(tDelta >= 1) {
 			checkInput();
 			_currentLevel->update();
+			int i = 0;
 			for(auto entity : _currentLevel->getEntityList()) {
 				entity->updateEntity();
+				i++;
+				if(entity->hasCrashed()) {
+					_currentLevel->despawn(i);
+				}
 			}
 			checkCollision();
 			checkPlayerState();
@@ -105,7 +110,7 @@ void Controller::checkPlayerState() {
 	auto player = _currentLevel->getPlayer();
 	int lives = player->getLives();
 	
-	if(player->hasFailed()) {
+	if(player->hasCrashed()) {
 		std::string levelName = _currentLevel->getName();
 		_currentLevel = _levelManager->load(levelName);
 		_currentLevel->getPlayer()->setLives(lives);
@@ -146,6 +151,7 @@ void Controller::checkCollision() {
 		}
 
 		if(physics->checkCollision_World(playerEntitys.get(), _currentLevel.get())) {
+			playerEntitys->onCollision(nullptr);
 			std::cout << "Colission World" << std::endl;
 		}
 

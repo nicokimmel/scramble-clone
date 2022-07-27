@@ -16,7 +16,7 @@ enum AnimationType {
 
 struct SpriteInformation {
 	AnimationType animationType;
-	uint spriteCount;
+	int spriteCount;
 	std::string spriteFile;
 };
 
