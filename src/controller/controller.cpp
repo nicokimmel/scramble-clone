@@ -14,7 +14,10 @@ void Controller::init() {
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
 			if(key == GLFW_KEY_LEFT_CONTROL) {
-				self._view->buffer(self._currentLevel->spawn());
+				self._view->buffer(self._currentLevel->spawn(EntityType::MISSILE));
+			}
+			if(key == GLFW_KEY_LEFT_ALT) {
+				self._view->buffer(self._currentLevel->spawn(EntityType::LASER));
 			}
 		} else if(action == GLFW_RELEASE) {
 			self._input[key] = false;
