@@ -52,7 +52,8 @@ void Controller::start() {
 				}
 			}
 			checkCollision();
-			checkPlayerState();
+			checkPlayer();
+			checkRockets();
 
 			tDelta--;
 			
@@ -109,23 +110,6 @@ void Controller::checkInput() {
 	}
 }
 
-void Controller::checkPlayerState() {
-	auto player = _currentLevel->getPlayer();
-	int lives = player->getLives();
-	
-	if(player->hasCrashed()) {
-		std::string levelName = _currentLevel->getName();
-		_currentLevel = _levelManager->load(levelName);
-		_currentLevel->getPlayer()->setLives(lives);
-		std::cout << "Player crashed, reset level" << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
-	}
-	
-	if(player->getLives() <= 0) {
-		//TODO: endscreen/main menu
-		stop();
-	}
-}
-
 void Controller::checkCollision() {
 	auto player = _currentLevel->getPlayer();
 
@@ -160,4 +144,32 @@ void Controller::checkCollision() {
 
 	}
 	
+}
+
+void Controller::checkPlayer() {
+	auto player = _currentLevel->getPlayer();
+	int lives = player->getLives();
+	
+	if(player->hasCrashed()) {
+		std::string levelName = _currentLevel->getName();
+		_currentLevel = _levelManager->load(levelName);
+		_currentLevel->getPlayer()->setLives(lives);
+		std::cout << "Player crashed, reset level" << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
+	}
+	
+	if(player->getLives() <= 0) {
+		//TODO: endscreen/main menu
+		stop();
+	}
+}
+
+void Controller::checkRockets() {
+	for(auto entity : _currentLevel->getEntityList()) {
+		if(entity->getType() == EntityType::ROCKET) {
+			auto rocket = std::reinterpret_pointer_cast<Rocket>(entity);
+			if(_currentLevel->getPlayer()->getPosition().getX() + _currentLevel->getPlayer()->getSize().getX() >= entity->getPosition().getX() - 100) {
+				rocket->launch();
+			}
+		}
+	}
 }

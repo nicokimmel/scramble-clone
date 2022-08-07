@@ -30,8 +30,9 @@ class Controller {
 		std::map<int, bool> _input;
 		void onInput(std::shared_ptr<EventData>);
 		void checkInput();
-		void checkPlayerState();
 		void checkCollision();
+		void checkPlayer();
+		void checkRockets();
 		void changeLevel();
 		void debug();
 	public:

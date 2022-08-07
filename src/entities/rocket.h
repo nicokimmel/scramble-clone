@@ -13,6 +13,7 @@ class Rocket : public Entity {
 		Rocket();
 		void update();
 		void onCollision(std::shared_ptr<Entity>);
+		void launch();
 };
 
 #endif //SCRAMBLE_ROCKET_H

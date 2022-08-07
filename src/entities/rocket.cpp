@@ -12,3 +12,7 @@ void Rocket::update() {
 void Rocket::onCollision(std::shared_ptr<Entity> collisionPartner) {
 	
 }
+
+void Rocket::launch() {
+	_velocity.setY(3);
+}
