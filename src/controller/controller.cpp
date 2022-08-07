@@ -167,7 +167,8 @@ void Controller::checkRockets() {
 	for(auto entity : _currentLevel->getEntityList()) {
 		if(entity->getType() == EntityType::ROCKET) {
 			auto rocket = std::reinterpret_pointer_cast<Rocket>(entity);
-			if(_currentLevel->getPlayer()->getPosition().getX() + _currentLevel->getPlayer()->getSize().getX() >= entity->getPosition().getX() - 100) {
+			auto player = _currentLevel->getPlayer();
+			if(player->getPosition().getX() + player->getSize().getX() >= entity->getPosition().getX() - 100) {
 				rocket->launch();
 			}
 		}
