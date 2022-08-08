@@ -75,7 +75,7 @@ void Physics::move(Object *a) {
 }
 
 void Physics::move(Object *a, int vx, int vy) {
-    auto posX = a->getPosition().getX() + a->getVelocity().getX() + vx;
-    auto posY = a->getPosition().getY() + a->getVelocity().getY() + vy;
+    auto posX = a->getPosition().getX() + vx;
+    auto posY = a->getPosition().getY() + vy;
     a->setPosition(Vector2(posX, posY));
 }

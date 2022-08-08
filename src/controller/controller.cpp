@@ -14,11 +14,25 @@ void Controller::init() {
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
 			if(key == GLFW_KEY_LEFT_CONTROL) {
-				self._view->buffer(self._currentLevel->spawn());
+				self._view->buffer(self._currentLevel->spawn(EntityType::MISSILE));
+			}
+			if(key == GLFW_KEY_LEFT_ALT) {
+				self._view->buffer(self._currentLevel->spawn(EntityType::LASER));
 			}
 		} else if(action == GLFW_RELEASE) {
 			self._input[key] = false;
 		}
+	});
+	
+	_eventManager->registerUpdate("playerFuelUpdate", 30, [this]() {
+		auto player = _currentLevel->getPlayer();
+		uint fuel = player->getFuel();
+		player->setFuel(fuel - 1);
+		std::cout << "FUEL: " << fuel << "%" << std::endl;
+	});
+	
+	_eventManager->registerUpdate("viewTextureUpdate", 8, [this]() {
+		_view->tick();
 	});
 }
 
@@ -45,12 +59,18 @@ void Controller::start() {
 				entity->updateEntity();
 				i++;
 				if(entity->hasCrashed()) {
+					if(entity->getType() == EntityType::FUEL){
+						_currentLevel->getPlayer()->setFuel(100);
+					}
 					_currentLevel->despawn(i);
 				}
 			}
 
 			checkCollision();
-			checkPlayerState();
+			checkPlayer();
+			checkRockets();
+			
+			_eventManager->tick();
 
 			tDelta--;
 			
@@ -107,23 +127,6 @@ void Controller::checkInput() {
 	}
 }
 
-void Controller::checkPlayerState() {
-	auto player = _currentLevel->getPlayer();
-	int lives = player->getLives();
-	
-	if(player->hasCrashed()) {
-		std::string levelName = _currentLevel->getName();
-		_currentLevel = _levelManager->load(levelName);
-		_currentLevel->getPlayer()->setLives(lives);
-		std::cout << "Player crashed, reset level" << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
-	}
-	
-	if(player->getLives() <= 0) {
-		//TODO: endscreen/main menu
-		stop();
-	}
-}
-
 void Controller::checkCollision() {	
 	/*
 	std::vector<std::shared_ptr<Object>> list = std::vector<std::shared_ptr<Object>>();
@@ -137,11 +140,46 @@ void Controller::checkCollision() {
 	std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites = std::vector<std::shared_ptr<Object>>();
 
 	for(auto entity : _currentLevel->getEntityList()) {
-		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE) {
+		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE && entity->getType() != EntityType::LASER) {
 			nonPlayerRelatedEntites.push_back(entity);
 		} else {
 			playerRelatedEntitys.push_back(entity);
 		}
 	}
 	physics->checkCollision(playerRelatedEntitys, nonPlayerRelatedEntites, _currentLevel);
+}
+
+void Controller::checkPlayer() {
+    auto player = _currentLevel->getPlayer();
+    int lives = player->getLives();
+    
+    if(player->hasCrashed()) {
+        std::string levelName = _currentLevel->getName();
+        _currentLevel = _levelManager->load(levelName);
+        _currentLevel->getPlayer()->setLives(lives);
+        std::cout << "Player crashed, reset level" << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
+    }
+    
+    if(player->getLives() <= 0) {
+        //TODO: endscreen/main menu
+        stop();
+    }
+    
+    if(player->getFuel() == 0) {
+        player->setSpeed(0);
+        player->setVelocity(Vector2(2, -2));
+    }
+}
+
+void Controller::checkRockets() {
+    for(auto entity : _currentLevel->getEntityList()) {
+        if(entity->getType() == EntityType::ROCKET) {
+            auto rocket = std::reinterpret_pointer_cast<Rocket>(entity);
+            auto player = _currentLevel->getPlayer();
+            if(player->getPosition().getX() + player->getSize().getX() >= entity->getPosition().getX() - 100) {
+                rocket->launch();
+                _view->startAnimation(rocket);
+            }
+        }
+    }
 }

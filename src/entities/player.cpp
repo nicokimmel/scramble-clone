@@ -3,6 +3,7 @@
 Player::Player() {
 	_type = EntityType::PLAYER;
 	_lives = 3;
+	_fuel = 100;
 	setSize(Vector2(108, 44));
 	setPosition(Vector2(50, 300));
 	setSpeed(3);
@@ -68,4 +69,12 @@ int Player::getLives() {
 
 void Player::setLives(int lives) {
 	_lives = lives;
+}
+
+uint Player::getFuel() {
+	return _fuel;
+}
+
+void Player::setFuel(uint fuel) {
+	_fuel = fuel;
 }

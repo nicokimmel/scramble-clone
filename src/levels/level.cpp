@@ -102,14 +102,22 @@ void Level::setScrollSpeed(uint scrollSpeed) {
 	_scrollSpeed = scrollSpeed;
 }
 
-std::shared_ptr<Entity> Level::spawn() {
-	auto missile = std::make_shared<Missile>();
-	auto pos = _player->getPosition();
-	pos = pos.add(Vector2(_player->getSize().getX() / 2 - missile->getSize().getX() / 2, -_player->getSize().getY() / 2));
-	missile->setPosition(pos);
-	_entityList.push_back(missile);
-
-	return missile;
+std::shared_ptr<Entity> Level::spawn(EntityType type) {
+	std::shared_ptr<Entity> entity;
+	
+	switch(type) {
+		case EntityType::MISSILE:
+			entity = std::make_shared<Missile>();
+			entity->setPosition(_player->getPosition().add(Vector2(_player->getSize().getX() / 2 - entity->getSize().getX() / 2, -_player->getSize().getY() / 2)));
+			break;
+		case EntityType::LASER:
+			entity = std::make_shared<Laser>();
+			entity->setPosition(_player->getPosition().add(Vector2(_player->getSize().getX() - 10, _player->getSize().getY() / 2 - entity->getSize().getY() / 2)));
+			break;
+	}
+	
+	_entityList.push_back(entity);
+	return entity;
 }
 
 void Level::despawn(int i) {

@@ -10,6 +10,7 @@
 #include "../physics/world.h"
 #include "../entities/player.h"
 #include "../entities/missile.h"
+#include "../entities/laser.h"
 
 typedef std::function<void(std::shared_ptr<Entity>)> entityCallback;
 
@@ -41,7 +42,7 @@ class Level : public Drawable, public World {
 		void setOffset(uint);
 		uint getScrollSpeed();
 		void setScrollSpeed(uint);
-		std::shared_ptr<Entity> spawn();
+		std::shared_ptr<Entity> spawn(EntityType type);
 		void despawn(int);
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();

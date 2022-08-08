@@ -10,6 +10,7 @@
 class Player : public Entity {
 	private:
 		int _lives;
+		uint _fuel;
 	public:
 		Player();
 		void update();
@@ -20,6 +21,8 @@ class Player : public Entity {
 		void moveRight();
 		int getLives();
 		void setLives(int);
+		uint getFuel();
+		void setFuel(uint);
 };
 
 #endif //SCRAMBLE_PLAYER_H

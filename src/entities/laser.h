@@ -1,19 +1,21 @@
-#ifndef SCRAMBLE_ROCKET_H
-#define SCRAMBLE_ROCKET_H
+#ifndef SCRAMBLE_LASER_H
+#define SCRAMBLE_LASER_H
 
 #include "../utils/base.h"
+
+#include <algorithm>
+#include <cmath>
 
 #include "./entity.h"
 #include "../textures/texture.h"
 
-class Rocket : public Entity {
+class Laser : public Entity {
 	private:
-		
+		uint _ticks;
 	public:
-		Rocket();
+		Laser();
 		void update();
 		void onCollision(std::shared_ptr<Object>);
-		void launch();
 };
 
-#endif //SCRAMBLE_ROCKET_H
+#endif //SCRAMBLE_LASER_H

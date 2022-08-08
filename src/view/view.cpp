@@ -123,7 +123,7 @@ void View::render(std::shared_ptr<Drawable> object) {
 	glTranslatef(info.x, info.y, 0);
 	glRotatef(info.rotation, 0.0f, 0.0f, -1.0f);
 	
-	auto textureId = _textureBuffer[object]->next();
+	auto textureId = _textureBuffer[object]->get();
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (GLvoid*)offsetof(Vertex, textureCoordinates));
@@ -156,6 +156,12 @@ void View::clear() {
  */
 void View::flip() {
 	glfwSwapBuffers(_window);
+}
+
+void View::tick() {
+	for(auto entry : _textureBuffer) {
+		entry.second->next();
+	}
 }
 
 /**

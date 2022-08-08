@@ -12,3 +12,7 @@ void Rocket::update() {
 void Rocket::onCollision(std::shared_ptr<Object> collisionPartner) {
 	_crashed = true;
 }
+
+void Rocket::launch() {
+	setVelocity(Vector2(getVelocity().getX(), 3));
+}
