@@ -113,7 +113,7 @@ std::shared_ptr<Entity> Level::spawn() {
 }
 
 void Level::despawn(int i) {
-	_entityList.erase(_entityList.begin() + i);
+	_entityList.erase(_entityList.begin() + (i-1));
 	
 }
 

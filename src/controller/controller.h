@@ -19,6 +19,8 @@ class Player;
 
 class Controller {
 	private:
+		std::vector<std::shared_ptr<Object>> playerRelatedEntitys;
+		std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites;
 		std::shared_ptr<Physics> physics;
 		bool _running;
 		int _ticks, _fps, _ups;

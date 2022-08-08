@@ -13,7 +13,7 @@ class Player : public Entity {
 	public:
 		Player();
 		void update();
-		void onCollision(std::shared_ptr<Entity>);
+		void onCollision(std::shared_ptr<Object>);
 		void moveUp();
 		void moveDown();
 		void moveLeft();

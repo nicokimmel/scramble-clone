@@ -15,7 +15,7 @@ class Missile : public Entity {
 	public:
 		Missile();
 		void update();
-		void onCollision(std::shared_ptr<Entity>);
+		void onCollision(std::shared_ptr<Object>);
 };
 
 #endif //SCRAMBLE_MISSILE_H

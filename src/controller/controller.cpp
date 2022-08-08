@@ -48,6 +48,7 @@ void Controller::start() {
 					_currentLevel->despawn(i);
 				}
 			}
+
 			checkCollision();
 			checkPlayerState();
 
@@ -123,38 +124,24 @@ void Controller::checkPlayerState() {
 	}
 }
 
-void Controller::checkCollision() {
-	auto player = _currentLevel->getPlayer();
-
-	std::vector<std::shared_ptr<Entity>> playersList = std::vector<std::shared_ptr<Entity>>();
-	std::vector<std::shared_ptr<Entity>> entitiesList2 = std::vector<std::shared_ptr<Entity>>();
-	for(std::shared_ptr<Entity> entity : _currentLevel->getEntityList()) {
-		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE) {
-			entitiesList2.push_back(entity);
-		} else {
-			playersList.push_back(entity);
-		}
+void Controller::checkCollision() {	
+	/*
+	std::vector<std::shared_ptr<Object>> list = std::vector<std::shared_ptr<Object>>();
+	for(auto entity : _currentLevel->getEntityList()) {
+		list.push_back(entity);
 	}
-
-	for(auto playerEntitys : playersList) {
-		playerEntitys->setMax(Vector2(playerEntitys->getPosition().getX() + playerEntitys->getSize().getX(), playerEntitys->getPosition().getY() + playerEntitys->getSize().getY()));
-		playerEntitys->setMin(Vector2(playerEntitys->getPosition().getX(), playerEntitys->getPosition().getY()));
-		for(auto entity2 : entitiesList2) {
-			entity2->setMax(Vector2(entity2->getPosition().getX() + entity2->getSize().getX(), entity2->getPosition().getY() + entity2->getSize().getY()));
-			entity2->setMin(Vector2(entity2->getPosition().getX(), entity2->getPosition().getY()));
-
-			if(physics->checkCollision_Objects(playerEntitys.get(), entity2.get())) {
-				playerEntitys->onCollision(entity2);
-				entity2->onCollision(player);
-				std::cout << "Colission Entity" << std::endl;
-			}
-		}
-
-		if(physics->checkCollision_World(playerEntitys.get(), _currentLevel.get())) {
-			playerEntitys->onCollision(nullptr);
-			std::cout << "Colission World" << std::endl;
-		}
-
-	}
+	physics->checkCollision2(list, _currentLevel);
+	*/
 	
+	std::vector<std::shared_ptr<Object>> playerRelatedEntitys = std::vector<std::shared_ptr<Object>>();
+	std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites = std::vector<std::shared_ptr<Object>>();
+
+	for(auto entity : _currentLevel->getEntityList()) {
+		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE) {
+			nonPlayerRelatedEntites.push_back(entity);
+		} else {
+			playerRelatedEntitys.push_back(entity);
+		}
+	}
+	physics->checkCollision(playerRelatedEntitys, nonPlayerRelatedEntites, _currentLevel);
 }

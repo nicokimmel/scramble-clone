@@ -2,17 +2,17 @@
 
 Player::Player() {
 	_type = EntityType::PLAYER;
-	_size = Vector2(108, 44);
-	_position = Vector2(50, 300);
-	_speed = 3;
 	_lives = 3;
+	setSize(Vector2(108, 44));
+	setPosition(Vector2(50, 300));
+	setSpeed(3);
 }
 
 void Player::update() {
 	
 }
 
-void Player::onCollision(std::shared_ptr<Entity> collisionPartner) {
+void Player::onCollision(std::shared_ptr<Object> collisionPartner) {
 	return;
 	
 	if(collisionPartner == nullptr) {
@@ -21,7 +21,12 @@ void Player::onCollision(std::shared_ptr<Entity> collisionPartner) {
 		return;
 	}
 	
-	auto entityType = collisionPartner->getType();
+	auto entity = std::reinterpret_pointer_cast<Entity>(collisionPartner);
+
+	auto entityType = entity->getType();
+
+
+
 	if(entityType != EntityType::BASE && entityType != EntityType::FUEL && entityType != EntityType::MISSILE) {
 		_crashed = true;
 		_lives -= 1;

@@ -1,27 +1,40 @@
 #ifndef SCRAMBLE_OBJECT_H
 #define SCRAMBLE_OBJECT_H
 
+#include "../utils/base.h"
+#include "../utils/const.h"
+
 #include "../physics/vector2.h"
 
 class Object {
     private:
-        Vector2 _v;
-        Vector2 _pos;
+        Vector2 _size;
+		Vector2 _position;
+		Vector2 _velocity;
+		uint _speed;
+		int _rotation;
         Vector2 _max;
         Vector2 _min;
 
     public:   
-        virtual void setVelocity(Vector2) = 0;
-        virtual void setPosition(Vector2) = 0;
+        Object();
+        Vector2 getSize();
+		void setSize(Vector2);
+		Vector2 getPosition();
+		void setPosition(Vector2);
+		Vector2 getVelocity();
+		void setVelocity(Vector2);
+		uint getSpeed();
+		void setSpeed(uint);
+		int getRotation();
+		void setRotation(int);
         void setMax(Vector2 max);
         void setMin(Vector2 min);
-        virtual void setRotation(int rotation) = 0;
 
-        virtual Vector2 getVelocity() = 0;
-        virtual Vector2 getPosition() = 0;
         Vector2 getMax();
         Vector2 getMin();
-        virtual int getRotation() = 0;
+
+		virtual void onCollision(std::shared_ptr<Object>) = 0;
 
 };
 

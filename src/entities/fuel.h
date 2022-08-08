@@ -12,7 +12,7 @@ class Fuel : public Entity {
 	public:
 		Fuel();
 		void update();
-		void onCollision(std::shared_ptr<Entity>);
+		void onCollision(std::shared_ptr<Object>);
 };
 
 #endif //SCRAMBLE_FUEL_H
