@@ -33,7 +33,7 @@ void Controller::init() {
 		std::cout << "FUEL: " << fuel << "%" << std::endl;
 	});
 	
-	_eventManager->registerUpdate("viewTextureUpdate", 8, [this]() {
+	_eventManager->registerUpdate("viewTextureUpdate", 6, [this]() {
 		_view->tick();
 	});
 }

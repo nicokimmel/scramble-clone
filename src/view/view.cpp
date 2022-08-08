@@ -34,11 +34,16 @@ View::View() {
  */
 void View::init() {
 	SpriteInformation sp;
-
+	
 	sp.animationType = AnimationType::REPEAT;
 	sp.spriteCount = 4;
 	sp.spriteFile = "./assets/player.bmp";
 	_spriteList["player"] = sp;
+	
+	/*sp.animationType = AnimationType::ONCE;
+	sp.spriteCount = 7;
+	sp.spriteFile = "./assets/player-explosion.bmp";
+	_spriteList["player"] = sp;*/
 	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
