@@ -39,32 +39,31 @@ void View::init() {
 	sp.spriteCount = 4;
 	sp.spriteFile = "./assets/player.bmp";
 	_spriteList["player"] = sp;
-
+	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/laser.bmp";
 	_spriteList["laser"] = sp;
-
+	
 	sp.animationType = AnimationType::ONCE;
-	sp.spriteCount = 1;
+	sp.spriteCount = 6;
 	sp.spriteFile = "./assets/missile.bmp";
 	_spriteList["missile"] = sp;
-
+	
 	sp.animationType = AnimationType::ONCE;
 	sp.spriteCount = 2;
 	sp.spriteFile = "./assets/rocket.bmp";
 	_spriteList["rocket"] = sp;
-
+	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/building.bmp";
 	_spriteList["building"] = sp;
-
+	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/fuel.bmp";
 	_spriteList["fuel"] = sp;
-
 }
 
 /**

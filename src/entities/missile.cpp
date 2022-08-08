@@ -2,7 +2,7 @@
 
 Missile::Missile() {
 	_type = EntityType::MISSILE;
-	setSize(Vector2(26, 17));
+	setSize(Vector2(45, 22));
 	_ticks = 1;
 }
 

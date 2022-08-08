@@ -14,7 +14,9 @@ void Controller::init() {
 		if(action == GLFW_PRESS) {
 			self._input[key] = true;
 			if(key == GLFW_KEY_LEFT_CONTROL) {
-				self._view->buffer(self._currentLevel->spawn(EntityType::MISSILE));
+				auto missile = self._currentLevel->spawn(EntityType::MISSILE);
+				self._view->buffer(missile);
+				self._view->startAnimation(missile);
 			}
 			if(key == GLFW_KEY_LEFT_ALT) {
 				self._view->buffer(self._currentLevel->spawn(EntityType::LASER));
