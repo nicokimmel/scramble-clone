@@ -16,6 +16,7 @@ Texture::Texture(char* data, uint width, uint height) {
 	_height = height;
 	GLuint textureId;
 	generate(textureId, data);
+	_currentSprite = 0;
 }
 
 /**
@@ -103,6 +104,8 @@ void Texture::buffer(const char* path, uint spriteCount, uint* width, uint* heig
 	}
 	
 	file.close();
+	
+	_currentSprite = spriteCount - 1;
 }
 
 /**
@@ -131,33 +134,40 @@ void Texture::toggleAnimation(bool running) {
 	_animationRunning = running;
 }
 
+GLuint Texture::get() {
+	return _spriteList[_currentSprite];
+}
+
 /**
  * @brief Gibt nächste TextureID (der Animation) zurück
  * 
  * @return TextureID
  */
-GLuint Texture::next() {
+void Texture::next() {
 	uint spriteCount = _spriteList.size();
-
+	
+	if(!_animationRunning) {
+		return;
+	}
+	
 	if(_animationType == AnimationType::STATIC) {
-		return _spriteList[spriteCount - 1];
+		_currentSprite = spriteCount - 1;
+		return;
 	}
-
+	
 	if(_animationType == AnimationType::ONCE) {
-		if(_animationRunning && _currentSprite < spriteCount) {
-			_currentSprite += 1;
+		if(_currentSprite == 0) {
+			return;
 		}
-		return _spriteList[spriteCount - _currentSprite - 1];
+		_currentSprite -= 1;
+		return;
 	}
-
-	int const c = 20;
+	
 	if(_animationType == AnimationType::REPEAT) {
-		_currentSprite += 1;
-		if(_currentSprite >= spriteCount * c) {
-			_currentSprite = 0;
+		if(_currentSprite == 0) {
+			_currentSprite = spriteCount;
 		}
-		return _spriteList[spriteCount - _currentSprite/c - 1];
+		_currentSprite -= 1;
+		return;
 	}
-
-	return 0;
 }

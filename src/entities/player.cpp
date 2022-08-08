@@ -6,6 +6,7 @@ Player::Player() {
 	_position = Vector2(50, 300);
 	_speed = 3;
 	_lives = 3;
+	_fuel = 100;
 }
 
 void Player::update() {
@@ -63,4 +64,12 @@ int Player::getLives() {
 
 void Player::setLives(int lives) {
 	_lives = lives;
+}
+
+uint Player::getFuel() {
+	return _fuel;
+}
+
+void Player::setFuel(uint fuel) {
+	_fuel = fuel;
 }

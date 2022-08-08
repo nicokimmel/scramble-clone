@@ -45,7 +45,8 @@ class Texture {
 		uint getHeight() const;
 		void setAnimationType(AnimationType);
 		void toggleAnimation(bool);
-		GLuint next();
+		GLuint get();
+		void next();
 };
 
 #endif //SCRAMBLE_TEXTURE_H

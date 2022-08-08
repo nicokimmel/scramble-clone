@@ -23,6 +23,17 @@ void Controller::init() {
 			self._input[key] = false;
 		}
 	});
+	
+	_eventManager->registerUpdate("playerFuelUpdate", 60, [this]() {
+		auto player = _currentLevel->getPlayer();
+		uint fuel = player->getFuel();
+		player->setFuel(fuel - 1);
+		std::cout << "FUEL: " << fuel << "%" << std::endl;
+	});
+	
+	_eventManager->registerUpdate("viewTextureUpdate", 8, [this]() {
+		_view->tick();
+	});
 }
 
 void Controller::start() {
@@ -54,6 +65,8 @@ void Controller::start() {
 			checkCollision();
 			checkPlayer();
 			checkRockets();
+			
+			_eventManager->tick();
 
 			tDelta--;
 			
@@ -161,6 +174,11 @@ void Controller::checkPlayer() {
 		//TODO: endscreen/main menu
 		stop();
 	}
+	
+	if(player->getFuel() == 0) {
+		player->setSpeed(0);
+		player->setVelocity(Vector2(2, -2));
+	}
 }
 
 void Controller::checkRockets() {
@@ -170,6 +188,7 @@ void Controller::checkRockets() {
 			auto player = _currentLevel->getPlayer();
 			if(player->getPosition().getX() + player->getSize().getX() >= entity->getPosition().getX() - 100) {
 				rocket->launch();
+				_view->startAnimation(rocket);
 			}
 		}
 	}
