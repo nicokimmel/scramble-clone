@@ -9,6 +9,9 @@
 
 #include "eventdata.h"
 
+typedef std::function<void(std::shared_ptr<EventData>)> eventCallback;
+typedef std::function<void()> callback;
+
 /**
  * @brief Liste aller Eventtypen
  */
@@ -16,8 +19,12 @@ enum EventType {
 	INPUT, COLLISION
 };
 
-typedef std::function<void(std::shared_ptr<EventData>)> eventCallback;
-typedef std::function<void()> updateCallback;
+struct UpdateInformation {
+	uint ms;
+	callback func;
+	bool first;
+	bool remove;
+};
 
 /**
  * @brief Verwaltet Ereignisse und ruft passende Callback Funktionen auf
@@ -25,15 +32,17 @@ typedef std::function<void()> updateCallback;
 class EventManager {
 	private:
 		uint _ticks;
+		uint _callLaterId;
 		std::map<EventType, std::map<std::string, eventCallback>> _eventMap;
-		std::map<uint, std::map<std::string, updateCallback>> _updateMap;
+		std::map<std::string, UpdateInformation> _updateMap;
 	public:
 		EventManager();
 		void registerEvent(std::string, EventType, eventCallback);
 		void unregisterEvent(std::string, EventType);
 		void fireEvent(const EventType, std::shared_ptr<EventData>);
-		void registerUpdate(std::string, uint, updateCallback);
-		void unregisterEvent(std::string);
+		void registerUpdate(std::string, uint, callback);
+		void unregisterUpdate(std::string);
+		void callLater(uint, callback);
 		void tick();
 };
 

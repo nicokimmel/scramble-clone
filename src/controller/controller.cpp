@@ -26,14 +26,14 @@ void Controller::init() {
 		}
 	});
 	
-	_eventManager->registerUpdate("playerFuelUpdate", 30, [this]() {
+	_eventManager->registerUpdate("playerFuelUpdate", 500, [this]() {
 		auto player = _currentLevel->getPlayer();
 		uint fuel = player->getFuel();
 		player->setFuel(fuel - 1);
 		std::cout << "FUEL: " << fuel << "%" << std::endl;
 	});
 	
-	_eventManager->registerUpdate("viewTextureUpdate", 6, [this]() {
+	_eventManager->registerUpdate("viewTextureUpdate", 100, [this]() {
 		_view->tick();
 	});
 }

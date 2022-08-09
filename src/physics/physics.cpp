@@ -18,12 +18,12 @@ void Physics::checkCollision2(std::vector<std::shared_ptr<Object>> entityList, s
 			if(checkCollision_Objects(entity1.get(), entity2.get())) {
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
-                std::cout << "Colission Entity" << std::endl;
+                //std::cout << "Colission Entity" << std::endl;
 			}
 		}
         if(checkCollision_World(entity1.get(), currentLevel.get())) {
             entity1->onCollision(nullptr);
-			std::cout << "Colission World" << std::endl;
+			//std::cout << "Colission World" << std::endl;
         }
 	}
 }
@@ -34,12 +34,12 @@ void Physics::checkCollision(std::vector<std::shared_ptr<Object>> playerRelatedE
 			if(checkCollision_Objects(entity1.get(), entity2.get())) {
 			 	entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
-				std::cout << "Colission Entity" << std::endl;
+				//std::cout << "Colission Entity" << std::endl;
 			}
 		}
 		if(checkCollision_World(entity1.get(), currentLevel.get())) {
 			entity1->onCollision(nullptr);
-			std::cout << "Colission World" << std::endl;
+			//std::cout << "Colission World" << std::endl;
 		}
 	}
 }
