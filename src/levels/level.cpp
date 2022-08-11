@@ -130,9 +130,9 @@ std::shared_ptr<Entity> Level::spawn(EntityType type) {
 			entity = std::make_shared<Laser>();
 			entity->setPosition(_player->getPosition().add(Vector2(_player->getSize().getX() - 10, _player->getSize().getY() / 2 - entity->getSize().getY() / 2)));
 			break;
-		case EntityType::EXPLOSION:
-			entity = std::make_shared<Explosion>();
 	}
+	
+	entity->setVelocity(entity->getVelocity().add(Vector2(-_scrollSpeed, 0)));
 	
 	_entityList.push_back(entity);
 	return entity;
@@ -148,11 +148,19 @@ std::shared_ptr<Entity> Level::explode(std::shared_ptr<Entity> target) {
 	
 	despawn(target);
 	
-	auto explosion = spawn(EntityType::EXPLOSION);
+	std::shared_ptr<Explosion> explosion;
+	if(target->getType() == EntityType::PLAYER) {
+		explosion = std::make_shared<Explosion>(ExplosionType::EPLAYER);
+	} else {
+		explosion = std::make_shared<Explosion>(ExplosionType::EDEFAULT);
+	}
 	
 	pos = Vector2(pos.getX() - explosion->getSize().getX() / 2, pos.getY() - explosion->getSize().getY() / 2);
 	explosion->setPosition(pos);
 	
+	explosion->setVelocity(Vector2(-_scrollSpeed, 0));
+	
+	_entityList.push_back(explosion);
 	return explosion;
 }
 

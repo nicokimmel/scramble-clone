@@ -61,9 +61,18 @@ void Controller::start() {
 					entity->updateEntity();
 					if(entity->hasCrashed()) {
 						if(entity->getType() == EntityType::FUEL){
-							_currentLevel->getPlayer()->setFuel(100);
+							_currentLevel->getPlayer()->addFuel(20);
 						}
-						_currentLevel->despawn(entity);
+						if(entity->getType() == EntityType::LASER) {
+							_currentLevel->despawn(entity);
+						} else {
+							auto explosion = _currentLevel->explode(entity);
+							_view->buffer(explosion);
+							_view->startAnimation(explosion);
+							_eventManager->callLater(500, [this, explosion]() {
+								_currentLevel->despawn(explosion);
+							});
+						}
 					}
 				}
 				
@@ -142,6 +151,7 @@ void Controller::checkCollision() {
 	std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites = std::vector<std::shared_ptr<Object>>();
 
 	for(auto entity : _currentLevel->getEntityList()) {
+		if(entity->getType() == EntityType::EXPLOSION) { continue; }
 		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE && entity->getType() != EntityType::LASER) {
 			nonPlayerRelatedEntites.push_back(entity);
 		} else {

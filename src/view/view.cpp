@@ -40,11 +40,6 @@ void View::init() {
 	sp.spriteFile = "./assets/player.bmp";
 	_spriteList[EntityType::PLAYER] = sp;
 	
-	sp.animationType = AnimationType::REPEAT;
-	sp.spriteCount = 7;
-	sp.spriteFile = "./assets/player-explosion.bmp";
-	_spriteList[EntityType::EXPLOSION] = sp;
-	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/laser.bmp";
@@ -69,6 +64,16 @@ void View::init() {
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/fuel.bmp";
 	_spriteList[EntityType::FUEL] = sp;
+	
+	sp.animationType = AnimationType::REPEAT;
+	sp.spriteCount = 4;
+	sp.spriteFile = "./assets/explosion-default.bmp";
+	_spriteList[ExplosionType::EDEFAULT] = sp;
+	
+	sp.animationType = AnimationType::REPEAT;
+	sp.spriteCount = 7;
+	sp.spriteFile = "./assets/explosion-player.bmp";
+	_spriteList[ExplosionType::EPLAYER] = sp;
 }
 
 /**

@@ -14,10 +14,6 @@ enum EntityType {
 	NONE, PLAYER, LASER, MISSILE, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE, EXPLOSION
 };
 
-static std::string EntityName[] = {
-	"none", "player", "laser", "missile", "rocket", "building", "ufo", "meteor", "fuel", "base", "explosion"
-};
-
 class Entity : public Drawable, public Object {
 	protected:
 		std::shared_ptr<Physics> physics;

@@ -61,6 +61,9 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 			case 2:
 				entity = std::make_shared<Fuel>();
 				break;
+			case 3:
+				entity = std::make_shared<Building>();
+				break;
 		}
 
 		entity->setPosition(Vector2(x, y));

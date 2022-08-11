@@ -15,6 +15,7 @@
 #include "../entities/player.h"
 #include "../entities/rocket.h"
 #include "../entities/fuel.h"
+#include "../entities/building.h"
 
 /**
  * @brief Lädt Level vom Dateisystem und generiert Levelobjekte
