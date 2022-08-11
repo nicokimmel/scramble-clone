@@ -61,7 +61,6 @@ void EventManager::callLater(uint ms, callback func) {
 	_callLaterId++;
 	
 	registerUpdate(identifier, ms, [this, identifier, func]() {
-		std::cout << identifier << std::endl;
 		unregisterUpdate(identifier);
 		std::invoke(func);
 		return true;
@@ -72,17 +71,17 @@ void EventManager::tick() {
 	auto it = _updateMap.begin();
 	while(it != _updateMap.end()) {
 		UpdateInformation& info = it->second;
+		if(info.remove) {
+			it = _updateMap.erase(it);
+			continue;
+		} else {
+			++it;
+		}
 		if(_ticks % (info.ms * 60/1000) == 0) {
 			if(!info.first) {
 				std::invoke(info.func);
 			}
 			info.first = false;
-		}
-		if(info.remove) {
-			std::cout << "REMOVE " << it->first << std::endl;
-			it = _updateMap.erase(it);
-		} else {
-			++it;
 		}
 	}
 	

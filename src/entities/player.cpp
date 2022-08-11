@@ -14,8 +14,6 @@ void Player::update() {
 }
 
 void Player::onCollision(std::shared_ptr<Object> collisionPartner) {
-	return;
-	
 	if(collisionPartner == nullptr) {
 		_crashed = true;
 		_lives -= 1;
@@ -23,16 +21,17 @@ void Player::onCollision(std::shared_ptr<Object> collisionPartner) {
 	}
 	
 	auto entity = std::reinterpret_pointer_cast<Entity>(collisionPartner);
-
 	auto entityType = entity->getType();
-
-
-
 	if(entityType != EntityType::BASE && entityType != EntityType::FUEL && entityType != EntityType::MISSILE) {
 		_crashed = true;
 		_lives -= 1;
 		return;
 	}
+}
+
+void Player::onFuel() {
+	_fuel--;
+	std::cout << "FUEL: " << _fuel << "%" << std::endl;
 }
 
 void Player::moveUp() {
@@ -77,4 +76,8 @@ uint Player::getFuel() {
 
 void Player::setFuel(uint fuel) {
 	_fuel = fuel;
+}
+
+void Player::addFuel(uint fuel) {
+	_fuel = std::min(_fuel + fuel, (uint)100);
 }

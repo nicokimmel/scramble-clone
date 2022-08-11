@@ -3,6 +3,9 @@
 
 #include "../utils/base.h"
 
+#include <algorithm>
+#include <cmath>
+
 #include "./entity.h"
 #include "../events/eventdata.h"
 #include "../textures/texture.h"
@@ -15,6 +18,7 @@ class Player : public Entity {
 		Player();
 		void update();
 		void onCollision(std::shared_ptr<Object>);
+		void onFuel();
 		void moveUp();
 		void moveDown();
 		void moveLeft();
@@ -23,6 +27,7 @@ class Player : public Entity {
 		void setLives(int);
 		uint getFuel();
 		void setFuel(uint);
+		void addFuel(uint);
 };
 
 #endif //SCRAMBLE_PLAYER_H

@@ -40,10 +40,10 @@ void View::init() {
 	sp.spriteFile = "./assets/player.bmp";
 	_spriteList["player"] = sp;
 	
-	/*sp.animationType = AnimationType::ONCE;
+	sp.animationType = AnimationType::REPEAT;
 	sp.spriteCount = 7;
 	sp.spriteFile = "./assets/player-explosion.bmp";
-	_spriteList["player"] = sp;*/
+	_spriteList["explosion"] = sp;
 	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;

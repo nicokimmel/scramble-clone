@@ -2,6 +2,7 @@
 
 Controller::Controller(std::shared_ptr<View> view) {
 	_view = view;
+	_frozen = false;
 	_eventManager = std::make_shared<EventManager>();
 	_levelManager = std::make_shared<LevelManager>(view);
 	_currentLevel = _levelManager->load("stageonesmall");
@@ -27,13 +28,10 @@ void Controller::init() {
 	});
 	
 	_eventManager->registerUpdate("playerFuelUpdate", 500, [this]() {
-		auto player = _currentLevel->getPlayer();
-		uint fuel = player->getFuel();
-		player->setFuel(fuel - 1);
-		std::cout << "FUEL: " << fuel << "%" << std::endl;
+		_currentLevel->getPlayer()->onFuel();
 	});
 	
-	_eventManager->registerUpdate("viewTextureUpdate", 100, [this]() {
+	_eventManager->registerUpdate("viewTextureUpdate", 150, [this]() {
 		_view->tick();
 	});
 }
@@ -55,22 +53,24 @@ void Controller::start() {
 		
 		while(tDelta >= 1) {
 			checkInput();
-			_currentLevel->update();
-			int i = 0;
-			for(auto entity : _currentLevel->getEntityList()) {
-				entity->updateEntity();
-				i++;
-				if(entity->hasCrashed()) {
-					if(entity->getType() == EntityType::FUEL){
-						_currentLevel->getPlayer()->setFuel(100);
+			
+			if(!_frozen) {
+				_currentLevel->update();
+				
+				for(auto entity : _currentLevel->getEntityList()) {
+					entity->updateEntity();
+					if(entity->hasCrashed()) {
+						if(entity->getType() == EntityType::FUEL){
+							_currentLevel->getPlayer()->setFuel(100);
+						}
+						_currentLevel->despawn(entity);
 					}
-					_currentLevel->despawn(i);
 				}
+				
+				checkCollision();
+				checkPlayer();
+				checkRockets();
 			}
-
-			checkCollision();
-			checkPlayer();
-			checkRockets();
 			
 			_eventManager->tick();
 
@@ -156,14 +156,21 @@ void Controller::checkPlayer() {
     int lives = player->getLives();
     
     if(player->hasCrashed()) {
-        std::string levelName = _currentLevel->getName();
-        _currentLevel = _levelManager->load(levelName);
-        _currentLevel->getPlayer()->setLives(lives);
-        std::cout << "Player crashed, reset level" << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
+		_frozen = true;
+		auto explosion = _currentLevel->explode(player);
+		_view->buffer(explosion);
+		_view->startAnimation(explosion);
+		
+		std::cout << "Player crashed, reset level in 1s. " << std::endl << "Current lives: " << _currentLevel->getPlayer()->getLives() << std::endl;
+		_eventManager->callLater(1000, [this, lives]() {
+			std::string levelName = _currentLevel->getName();
+			_currentLevel = _levelManager->load(levelName);
+			_currentLevel->getPlayer()->setLives(lives);
+			_frozen = false;
+		});
     }
     
     if(player->getLives() <= 0) {
-        //TODO: endscreen/main menu
         stop();
     }
     

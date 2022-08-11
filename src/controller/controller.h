@@ -23,6 +23,7 @@ class Controller {
 		std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites;
 		std::shared_ptr<Physics> physics;
 		bool _running;
+		bool _frozen;
 		int _ticks, _fps, _ups;
 		double _nextDebug;
 		std::shared_ptr<View> _view;

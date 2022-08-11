@@ -114,15 +114,30 @@ std::shared_ptr<Entity> Level::spawn(EntityType type) {
 			entity = std::make_shared<Laser>();
 			entity->setPosition(_player->getPosition().add(Vector2(_player->getSize().getX() - 10, _player->getSize().getY() / 2 - entity->getSize().getY() / 2)));
 			break;
+		case EntityType::EXPLOSION:
+			entity = std::make_shared<Explosion>();
 	}
 	
 	_entityList.push_back(entity);
 	return entity;
 }
 
-void Level::despawn(int i) {
-	_entityList.erase(_entityList.begin() + (i-1));
+void Level::despawn(std::shared_ptr<Entity> target) {
+	auto iterator = std::find_if(_entityList.begin(), _entityList.end(), [&](const std::shared_ptr<Entity> entity) { return entity == target; });
+	_entityList.erase(iterator);
+}
+
+std::shared_ptr<Entity> Level::explode(std::shared_ptr<Entity> target) {
+	auto pos = Vector2(target->getPosition().getX() + target->getSize().getX() / 2, target->getPosition().getY() + target->getSize().getY() / 2);
 	
+	despawn(target);
+	
+	auto explosion = spawn(EntityType::EXPLOSION);
+	
+	pos = Vector2(pos.getX() - explosion->getSize().getX() / 2, pos.getY() - explosion->getSize().getY() / 2);
+	explosion->setPosition(pos);
+	
+	return explosion;
 }
 
 /**
