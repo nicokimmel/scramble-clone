@@ -8,13 +8,13 @@ void Physics::checkCollision2(std::vector<std::shared_ptr<Object>> entityList, s
 			if(entity1 == entity2) {
 				continue;
 			}
-
+			
 			if(std::find(checkedEntities.begin(), checkedEntities.end(), entity1) != checkedEntities.end()) {
 				continue;
 			}
 			checkedEntities.push_back(entity1);
 			checkedEntities.push_back(entity2);
-
+			
 			if(checkCollision_Objects(entity1.get(), entity2.get())) {
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
@@ -45,37 +45,36 @@ void Physics::checkCollision(std::vector<std::shared_ptr<Object>> playerRelatedE
 }
 
 bool Physics::checkCollision_Objects(Object *a, Object *b) {
-    a->setMax(Vector2(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY()));
-	a->setMin(Vector2(a->getPosition().getX(), a->getPosition().getY()));
-    b->setMax(Vector2(b->getPosition().getX() + b->getSize().getX(), b->getPosition().getY() + b->getSize().getY()));
-	b->setMin(Vector2(b->getPosition().getX(), b->getPosition().getY()));
-
-    if(a->getMax().getX() < b->getMin().getX() or a->getMin().getX() > b->getMax().getX()) return false;
-    if(a->getMax().getY() < b->getMin().getY() or a->getMin().getY() > b->getMax().getY()) return false;
-
+	Vector2 maxA(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
+	Vector2 minA(a->getPosition().getX(), a->getPosition().getY());
+	
+	Vector2 maxB(b->getPosition().getX() + b->getSize().getX(), b->getPosition().getY() + b->getSize().getY());
+	Vector2 minB(b->getPosition().getX(), b->getPosition().getY());
+	
+    if(maxA.getX() < minB.getX() or minA.getX() > maxB.getX()) return false;
+    if(maxA.getY() < minB.getY() or minA.getY() > maxB.getY()) return false;
+	
     return true;
 }
 
 bool Physics::checkCollision_World(Object *a, World *b) {
-    a->setMax(Vector2(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY()));
-	a->setMin(Vector2(a->getPosition().getX(), a->getPosition().getY()));
-
-    if(b->getAlpha(a->getMin().getX(), a->getMin().getY()) == 255) return true;
-    if(b->getAlpha(a->getMin().getX(), a->getMax().getY()) == 255) return true;
-    if(b->getAlpha(a->getMax().getX(), a->getMin().getY()) == 255) return true;
-    if(b->getAlpha(a->getMax().getX(), a->getMax().getY()) == 255) return true;
+	Vector2 max(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
+	Vector2 min(a->getPosition().getX(), a->getPosition().getY());
+	
+    if(b->getAlpha(min.getX(), min.getY()) == 255) return true;
+    if(b->getAlpha(min.getX(), max.getY()) == 255) return true;
+    if(b->getAlpha(max.getX(), min.getY()) == 255) return true;
+    if(b->getAlpha(max.getX(), max.getY()) == 255) return true;
     
     return false;
 }
 
 void Physics::move(Object *a) {
-    auto posX = a->getPosition().getX() + a->getVelocity().getX();
-    auto posY = a->getPosition().getY() + a->getVelocity().getY();
-    a->setPosition(Vector2(posX, posY));
+	auto pos = a->getPosition().add(a->getVelocity());
+	a->setPosition(pos);
 }
 
 void Physics::move(Object *a, int vx, int vy) {
-    auto posX = a->getPosition().getX() + vx;
-    auto posY = a->getPosition().getY() + vy;
-    a->setPosition(Vector2(posX, posY));
+	auto pos = a->getPosition().add(vx, vy);
+    a->setPosition(pos);
 }

@@ -38,37 +38,37 @@ void View::init() {
 	sp.animationType = AnimationType::REPEAT;
 	sp.spriteCount = 4;
 	sp.spriteFile = "./assets/player.bmp";
-	_spriteList["player"] = sp;
+	_spriteList[EntityType::PLAYER] = sp;
 	
 	sp.animationType = AnimationType::REPEAT;
 	sp.spriteCount = 7;
 	sp.spriteFile = "./assets/player-explosion.bmp";
-	_spriteList["explosion"] = sp;
+	_spriteList[EntityType::EXPLOSION] = sp;
 	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/laser.bmp";
-	_spriteList["laser"] = sp;
+	_spriteList[EntityType::LASER] = sp;
 	
 	sp.animationType = AnimationType::ONCE;
 	sp.spriteCount = 6;
 	sp.spriteFile = "./assets/missile.bmp";
-	_spriteList["missile"] = sp;
+	_spriteList[EntityType::MISSILE] = sp;
 	
 	sp.animationType = AnimationType::ONCE;
 	sp.spriteCount = 2;
 	sp.spriteFile = "./assets/rocket.bmp";
-	_spriteList["rocket"] = sp;
+	_spriteList[EntityType::ROCKET] = sp;
 	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/building.bmp";
-	_spriteList["building"] = sp;
+	_spriteList[EntityType::BUILDING] = sp;
 	
 	sp.animationType = AnimationType::STATIC;
 	sp.spriteCount = 1;
 	sp.spriteFile = "./assets/fuel.bmp";
-	_spriteList["fuel"] = sp;
+	_spriteList[EntityType::FUEL] = sp;
 }
 
 /**
@@ -76,16 +76,17 @@ void View::init() {
  * @details Sucht die zugehörige Bitmap im Dateisystem und
  * 			erstellt ein Objekt der Texturenklasse.
  * 
- * @param object Drawable Objekt
+ * @param drawable Drawable Objekt
  */
-void View::buffer(std::shared_ptr<Drawable> object) {
-	auto info = object->getRenderInformation();
-	auto spriteFile = _spriteList[info.identifier].spriteFile;
-	auto spriteCount = _spriteList[info.identifier].spriteCount;
+void View::buffer(std::shared_ptr<Drawable> drawable) {
+	int identifier = drawable->getIdentifier();
+	
+	auto spriteFile = _spriteList[identifier].spriteFile;
+	auto spriteCount = _spriteList[identifier].spriteCount;
 	auto texture = std::make_shared<Texture>(spriteFile.c_str(), spriteCount);
-	auto animationType = _spriteList[info.identifier].animationType;
+	auto animationType = _spriteList[identifier].animationType;
 	texture->setAnimationType(animationType);
-	buffer(object, texture);
+	buffer(drawable, texture);
 }
 
 /**
@@ -94,45 +95,46 @@ void View::buffer(std::shared_ptr<Drawable> object) {
  * 			vorliegt. Erstellt Buffer für Vertices des Objektes und speichert
  * 			TextureID und VertexID in eine Hilfsliste.
  * 
- * @param object 
+ * @param drawable 
  * @param texture 
  */
-void View::buffer(std::shared_ptr<Drawable> object, std::shared_ptr<Texture> texture) {
-	auto info = object->getRenderInformation();
-	_textureBuffer[object] = texture;
+void View::buffer(std::shared_ptr<Drawable> drawable, std::shared_ptr<Texture> texture) {
+	_textureBuffer[drawable] = texture;
+	
+	Vector2 size = drawable->getSize();
 	
 	Vertex vertices[] = {
 		{{0.0f, 0.0f, 0.0f},				{0.0f, 0.0f}},
-		{{info.width, 0.0f, 0.0f},			{1.0f, 0.0f}},
-		{{info.width, info.height, 0.0f},	{1.0f, 1.0f}},
-		{{0.0f, info.height, 0.0f},			{0.0f, 1.0f}}
+		{{size.getX(), 0.0f, 0.0f},			{1.0f, 0.0f}},
+		{{size.getX(), size.getY(), 0.0f},	{1.0f, 1.0f}},
+		{{0.0f, size.getY(), 0.0f},			{0.0f, 1.0f}}
 	};
 	
 	GLuint vertexBufferId;
 	glGenBuffers(1, &vertexBufferId);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	_vertexBuffer[object] = vertexBufferId;
+	_vertexBuffer[drawable] = vertexBufferId;
 }
 
 /**
  * @brief Zeichnet Drawable Objekt in OpenGL Fenster
  * 
- * @param object Drawable Objekt
+ * @param drawable Drawable Objekt
  */
-void View::render(std::shared_ptr<Drawable> object) {
-	auto info = object->getRenderInformation();
-	
+void View::render(std::shared_ptr<Drawable> drawable) {
 	glLoadIdentity();
-	glTranslatef(info.x, info.y, 0);
-	glRotatef(info.rotation, 0.0f, 0.0f, -1.0f);
 	
-	auto textureId = _textureBuffer[object]->get();
+	Vector2 pos = drawable->getPosition();
+	glTranslatef(pos.getX(), pos.getY(), 0);
+	glRotatef(drawable->getRotation(), 0.0f, 0.0f, -1.0f);
+	
+	auto textureId = _textureBuffer[drawable]->get();
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (GLvoid*)offsetof(Vertex, textureCoordinates));
 	
-	auto vertexId = _vertexBuffer[object];
+	auto vertexId = _vertexBuffer[drawable];
 	glBindBuffer(GL_ARRAY_BUFFER, vertexId);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (GLvoid*)offsetof(Vertex, positionCoordinates));

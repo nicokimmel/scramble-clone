@@ -19,18 +19,50 @@ EntityType Entity::getType() {
 	return _type;
 }
 
-bool Entity::hasCrashed() {
-	return _crashed;
+int Entity::getIdentifier() {
+	return _type;
 }
 
-RenderInformation Entity::getRenderInformation() {
-	RenderInformation info;
-	info.identifier = EntityName[_type];
-	info.width = getSize().getX();
-	info.height = getSize().getY();
-	info.x = getPosition().getX();
-	info.y = getPosition().getY();
-	info.rotation = getRotation();
+Vector2 Entity::getPosition() {
+	return _position;
+}
 
-	return info;
+void Entity::setPosition(Vector2 position) {
+	_position = position;
+}
+
+Vector2 Entity::getVelocity() {
+	return _velocity;
+}
+
+void Entity::setVelocity(Vector2 velocity) {
+	_velocity = velocity;
+}
+
+uint Entity::getSpeed() {
+	return _speed;
+}
+
+void Entity::setSpeed(uint speed) {
+	_speed = speed;
+}
+
+Vector2 Entity::getSize() {
+	return _size;
+}
+
+void Entity::setSize(Vector2 size) {
+	_size = size;
+}
+
+int Entity::getRotation() {
+	return _rotation;
+}
+
+void Entity::setRotation(int rotation) {
+	_rotation = rotation;
+}
+
+bool Entity::hasCrashed() {
+	return _crashed;
 }

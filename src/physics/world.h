@@ -4,10 +4,8 @@
 class World {
     private:
         int* _worldArray;
-
     public:   
         virtual int getAlpha(int x, int y) = 0;
-
 };
 
 #endif //SCRAMBLE_WORLD_H

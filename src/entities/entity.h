@@ -22,14 +22,29 @@ class Entity : public Drawable, public Object {
 	protected:
 		std::shared_ptr<Physics> physics;
 		EntityType _type;
+		Vector2 _size;
+		Vector2 _position;
+		Vector2 _velocity;
+		uint _speed;
+		int _rotation;
 		bool _crashed;
 		virtual void update() = 0;
 	public:
 		Entity();
 		void updateEntity();
 		EntityType getType();
+		int getIdentifier();
+		Vector2 getSize();
+		void setSize(Vector2);
+		Vector2 getPosition();
+		void setPosition(Vector2);
+		Vector2 getVelocity();
+		void setVelocity(Vector2);
+		uint getSpeed();
+		void setSpeed(uint);
+		int getRotation();
+		void setRotation(int);
 		bool hasCrashed();
-		RenderInformation getRenderInformation();
 };
 
 #endif //SCRAMBLE_ENTITY_H

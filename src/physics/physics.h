@@ -11,7 +11,7 @@
 
 class Physics {
 	private:
-
+        
 	public:
         //std::shared_ptr<EventManager> _eventManager;
 		bool checkCollision_Objects(Object *a, Object *b);

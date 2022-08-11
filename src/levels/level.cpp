@@ -42,6 +42,10 @@ std::string Level::getName() const {
 	return _name;
 }
 
+int Level::getIdentifier() {
+	return 99;
+}
+
 /**
  * @brief Gibt Breite des Levels zurück
  * 
@@ -58,6 +62,10 @@ uint Level::getWidth() const {
  */
 uint Level::getHeight() const {
 	return _height;
+}
+
+Vector2 Level::getSize() {
+	return Vector2(_width * 2, _height * 2);
 }
 
 /**
@@ -80,6 +88,10 @@ void Level::setOffset(uint offset) {
 	_offset = offset;
 }
 
+Vector2 Level::getPosition() {
+	return Vector2(-_offset, 0);
+}
+
 /**
  * @brief Gibt Bewegungsgeschwindigkeit des Levels zurück
  * @details Mit dieser Geschwindigkeit bewegen sich auch alle
@@ -100,6 +112,10 @@ uint Level::getScrollSpeed() {
  */
 void Level::setScrollSpeed(uint scrollSpeed) {
 	_scrollSpeed = scrollSpeed;
+}
+
+int Level::getRotation() {
+	return 0;
 }
 
 std::shared_ptr<Entity> Level::spawn(EntityType type) {
@@ -168,24 +184,6 @@ std::shared_ptr<Player> Level::getPlayer() {
  */
 std::vector<std::shared_ptr<Entity>> Level::getEntityList() {
 	return _entityList;
-}
-
-/**
- * @brief Gibt Informationen zum Zeichnen des Levels zurück
- * @details Der Identifikator ist der Levelname, die Position
- * 			bildet hier das Offset des Levels.
- * 
- * @return Informationen zum Zeichnen 
- */
-RenderInformation Level::getRenderInformation() {
-	RenderInformation info;
-	info.identifier = _name;
-	info.width = _width * 2;
-	info.height = _height * 2;
-	info.x = _offset * -1;
-	info.y = 0;
-	info.rotation = 0;
-	return info;
 }
 
 int Level::getAlpha(int x, int y) {

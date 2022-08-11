@@ -30,7 +30,7 @@ class View {
 		GLFWwindow* _window;
 		std::map<std::shared_ptr<Drawable>, std::shared_ptr<Texture>> _textureBuffer;
 		std::map<std::shared_ptr<Drawable>, GLuint> _vertexBuffer;
-		std::map<std::string, SpriteInformation> _spriteList;
+		std::map<int, SpriteInformation> _spriteList;
 	public:
 		View();
 		void init();

@@ -37,12 +37,16 @@ class Level : public Drawable, public World {
 		Level(std::string, uint, uint, uint, std::shared_ptr<Player>, std::vector<std::shared_ptr<Entity>>, int[]);
 		void update();
 		std::string getName() const;
+		int getIdentifier();
 		uint getWidth() const;
 		uint getHeight() const;
+		Vector2 getSize();
 		uint getOffset();
 		void setOffset(uint);
+		Vector2 getPosition();
 		uint getScrollSpeed();
 		void setScrollSpeed(uint);
+		int getRotation();
 		std::shared_ptr<Entity> spawn(EntityType type);
 		void despawn(std::shared_ptr<Entity>);
 		std::shared_ptr<Entity> explode(std::shared_ptr<Entity>);
@@ -50,8 +54,6 @@ class Level : public Drawable, public World {
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();
 		int getAlpha(int, int);
-		RenderInformation getRenderInformation();
-		int getLevelAlpha(int x, int y);
 };
 
 #endif //SCRAMBLE_LEVEL_H
