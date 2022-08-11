@@ -51,7 +51,7 @@ void View::init() {
 	_spriteList[EntityType::MISSILE] = sp;
 	
 	sp.animationType = AnimationType::ONCE;
-	sp.spriteCount = 2;
+	sp.spriteCount = 3;
 	sp.spriteFile = "./assets/rocket.bmp";
 	_spriteList[EntityType::ROCKET] = sp;
 	
