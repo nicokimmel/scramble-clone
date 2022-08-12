@@ -67,7 +67,7 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 		}
 
 		entity->setPosition(Vector2(x, y));
-		entity->setVelocity(entity->getVelocity().add(-scrollSpeed, 0));
+		entity->setVelocity(entity->getVelocity() + Vector2(-scrollSpeed, 0));
 		_view->buffer(entity);
 		
 		std::cout << "[LevelManager] loaded entity: type#" << type << " x#" << x << " y#" << y << std::endl;

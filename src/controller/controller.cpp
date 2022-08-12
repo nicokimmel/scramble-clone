@@ -183,11 +183,6 @@ void Controller::checkPlayer() {
     if(player->getLives() <= 0) {
         stop();
     }
-    
-    if(player->getFuel() == 0) {
-        player->setSpeed(0);
-        player->setVelocity(Vector2(2, -2));
-    }
 }
 
 void Controller::checkRockets() {

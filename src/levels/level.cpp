@@ -132,7 +132,7 @@ std::shared_ptr<Entity> Level::spawn(EntityType type) {
 			break;
 	}
 	
-	entity->setVelocity(entity->getVelocity().add(Vector2(-_scrollSpeed, 0)));
+	entity->setVelocity(entity->getVelocity() + Vector2(-_scrollSpeed, 0));
 	
 	_entityList.push_back(entity);
 	return entity;

@@ -1,8 +1,8 @@
 .vs/
 .vscode/
 
-dist/Scramble
-dist/Scramble.exe
+dist/Scramble*
+dist/T*
 
 CMakeLists.txt
 build/
