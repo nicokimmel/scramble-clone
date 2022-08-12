@@ -16,7 +16,7 @@ Vector2::Vector2(int x, int y) {
  * 
  * @return X Wert
  */
-int Vector2::getX() {
+int Vector2::getX() const {
 	return _x;
 }
 
@@ -34,7 +34,7 @@ void Vector2::setX(int x) {
  * 
  * @return Y Wert
  */
-int Vector2::getY() {
+int Vector2::getY() const {
 	return _y;
 }
 
@@ -81,5 +81,41 @@ Vector2 Vector2::add(int x, int y) {
 Vector2 Vector2::multiply(Vector2 vector) {
 	_x *= vector.getX();
 	_y *= vector.getY();
+	return *this;
+}
+
+bool Vector2::operator==(const Vector2 vector) {
+	if(_x == vector.getX()
+		&& _y == vector.getY()) {
+		return true;	
+	}
+	return false;
+}
+
+bool Vector2::operator!=(const Vector2 vector) {
+	if(_x != vector.getX()
+		|| _y != vector.getY()) {
+		return true;	
+	}
+	return false;
+}
+
+Vector2 Vector2::operator+(const Vector2 vector) {
+	return Vector2(_x + vector.getX(), _y + vector.getY());
+}
+
+Vector2 Vector2::operator+=(const Vector2 vector) {
+	_x += vector.getX();
+	_y += vector.getY();
+	return *this;
+}
+
+Vector2 Vector2::operator-(const Vector2 vector) {
+	return Vector2(_x - vector.getX(), _y - vector.getY());
+}
+
+Vector2 Vector2::operator-=(const Vector2 vector) {
+	_x -= vector.getX();
+	_y -= vector.getY();
 	return *this;
 }
