@@ -10,6 +10,9 @@
 #include "../events/eventdata.h"
 #include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse des Spielers
+ */
 class Player : public Entity {
 	private:
 		int _lives;

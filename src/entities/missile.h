@@ -9,6 +9,9 @@
 #include "./entity.h"
 #include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse der vom Spieler gefeuerten Raketen
+ */
 class Missile : public Entity {
 	private:
 		uint _ticks;

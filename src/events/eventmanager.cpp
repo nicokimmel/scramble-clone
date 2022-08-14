@@ -1,5 +1,8 @@
 #include "eventmanager.h"
 
+/**
+ * @brief Erstellt Objekt des EventManagers
+ */
 EventManager::EventManager() {
 	_ticks = 0;
 	_callLaterId = 0;
@@ -22,7 +25,7 @@ void EventManager::registerEvent(std::string identifier, EventType eventType, ev
 }
 
 /**
- * @brief Entfernt Callback aus Map
+ * @brief Entfernt Callback aus Eventliste
  * 
  * @param identifier Identifikator
  * @param eventType Eventtyp
@@ -43,6 +46,13 @@ void EventManager::fireEvent(const EventType eventType, std::shared_ptr<EventDat
 	}
 }
 
+/**
+ * @brief Führt übergebenen Callback in gegebenem Intervall aus
+ * 
+ * @param identifier Identifikator
+ * @param ms Intervall in ms
+ * @param func Callbackfunktion
+ */
 void EventManager::registerUpdate(std::string identifier, uint ms, callback func) {
 	UpdateInformation ui;
 	ui.ms = ms;
@@ -52,10 +62,23 @@ void EventManager::registerUpdate(std::string identifier, uint ms, callback func
 	_updateMap[identifier] = ui;
 }
 
+/**
+ * @brief Löscht Callback aus Updateliste
+ * 
+ * @param identifier Identifikator
+ */
 void EventManager::unregisterUpdate(std::string identifier) {
 	_updateMap[identifier].remove = true;
 }
 
+/**
+ * @brief Führt Callback mit einer Verzögerung aus
+ * @details Nutzt EventManager::registerUpdate() um den Callback
+ * 			einmalig auszuführen und ihn danach direkt zu löschen.
+ * 
+ * @param ms Verzögerung in ms
+ * @param func Callbackfunktion
+ */
 void EventManager::callLater(uint ms, callback func) {
 	std::string identifier = "callLater" + _callLaterId;
 	_callLaterId++;
@@ -67,6 +90,12 @@ void EventManager::callLater(uint ms, callback func) {
 	});
 }
 
+/**
+ * @brief Erhöht die Tickvariable des EventManagers
+ * @details Wird genutzt um eine Taktfrequenz abzuleiten.
+ * 			Erwartet eine Tickrate von 60/Sekunde.
+ * 
+ */
 void EventManager::tick() {
 	auto it = _updateMap.begin();
 	while(it != _updateMap.end()) {

@@ -9,6 +9,9 @@
 #include "./entity.h"
 #include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse der vom Spieler gefeuerten Laser
+ */
 class Laser : public Entity {
 	private:
 		uint _ticks;

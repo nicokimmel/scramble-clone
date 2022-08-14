@@ -10,10 +10,18 @@
 #include <fstream>
 #include <vector>
 
+/**
+ * @brief Arten von Animationen
+ */
 enum AnimationType {
 	STATIC, ONCE, REPEAT
 };
 
+/**
+ * @brief Informationsblock über Sprites
+ * @details Enthält den Animationstyp, die Anzahl der Bilder
+ * 			innerhalb des Sprites und den Pfad zur Datei.
+ */
 struct SpriteInformation {
 	AnimationType animationType;
 	int spriteCount;

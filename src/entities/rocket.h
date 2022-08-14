@@ -6,6 +6,9 @@
 #include "./entity.h"
 #include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse für aufsteigende Raketen
+ */
 class Rocket : public Entity {
 	private:
 		

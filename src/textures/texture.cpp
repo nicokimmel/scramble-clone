@@ -126,20 +126,35 @@ uint Texture::getHeight() const {
 	return _height;
 }
 
+/**
+ * @brief Ändert den Animationstyp
+ * 
+ * @param type Animationstyp
+ */
 void Texture::setAnimationType(AnimationType type) {
 	_animationType = type;
 }
 
+/**
+ * @brief Startet/Stoppt die Animation
+ * 
+ * @param running 
+ */
 void Texture::toggleAnimation(bool running) {
 	_animationRunning = running;
 }
 
+/**
+ * @brief Gibt die Texture ID zurück.
+ * 
+ * @return GLuint Texture ID
+ */
 GLuint Texture::get() {
 	return _spriteList[_currentSprite];
 }
 
 /**
- * @brief Gibt nächste TextureID (der Animation) zurück
+ * @brief Inkrementiert die Animation je nach Animationstyp
  * 
  * @return TextureID
  */

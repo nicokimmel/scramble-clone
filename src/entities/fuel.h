@@ -4,8 +4,10 @@
 #include "../utils/base.h"
 
 #include "./entity.h"
-#include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse der Tanks am Boden
+ */
 class Fuel : public Entity {
 	private:
 		

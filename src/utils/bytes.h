@@ -20,6 +20,16 @@ inline int16_t byte_to_int16(char* buffer, int offset) {
     return *reinterpret_cast<int16_t*>(byte);
 }
 
+/**
+ * @brief Liest ein Byte aus einem Buffer aus und wandelt es in einen Integer
+ * @details Deklariert einen kleinen Zwischenbuffer um aus dem größeren
+ * 			Buffer auszulesen. Anschließend wird der Buffer als 8 Bit
+ * 			Integer reinterpretiert.
+ * 
+ * @param buffer Buffer aus dem ausgelesen werden soll
+ * @param offset Offset innerhalb des Buffers
+ * @return Auszulesener 8 Bit Integer
+ */
 inline uint8_t byte_to_uint8(char* buffer, int offset) {
 	auto byte = new char[1];
     byte[0] = buffer[offset];

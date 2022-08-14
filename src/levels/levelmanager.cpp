@@ -16,6 +16,7 @@ LevelManager::LevelManager(std::shared_ptr<View> view) {
  * 			Entites.
  * 			Lässt die Leveltextur von der View buffern.
  * 			Erstellt auch ein Spielerobjekt.
+ * 			Befüllt eine Kollisionsliste mit der Transparenz des Levels an Pixel X/Y.
  * 
  * @see https://docs.google.com/spreadsheets/d/1P4jnQqbnV6f9iMamDetU1nkwRxaJxuRgE43Ap-PSlX0
  * 
