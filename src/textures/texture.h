@@ -33,8 +33,6 @@ struct SpriteInformation {
  * @details Bietet Funktionen um Bitmaps intern zu verwalten und
  * 			Informationen wie Höhe, Breite und Pixeldaten aus jener
  * 			auszulesen. Erstellt eine TextureID für OpenGL.
- * 
- * @todo Animationen
  */
 class Texture {
 	private:

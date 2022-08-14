@@ -7,7 +7,6 @@
 #include <cmath>
 
 #include "./entity.h"
-#include "../textures/texture.h"
 
 /**
  * @brief Modellklasse der vom Spieler gefeuerten Raketen

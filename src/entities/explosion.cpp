@@ -14,7 +14,6 @@ Explosion::Explosion(ExplosionType explosionType) {
 		{ExplosionType::EDEFAULT, Vector2(66, 68)},
 		{ExplosionType::EPLAYER, Vector2(119, 67)},
 	};
-	
 	setSize(_explosionList[explosionType]);
 }
 
@@ -41,10 +40,26 @@ void Explosion::onCollision(std::shared_ptr<Object> collisionPartner) {
 	
 }
 
+/**
+ * @brief Gibt Identifikator der Explosion zurück
+ * @details Entspricht dem Explosionstypen und
+ * 			überschreibt die getIdentifier() von
+ * 			Entity um den Explosionstypen als
+ * 			Identifikator zu nutzen.
+ * 			So kann die View die Textur verschiedener
+ * 			Explosionstypen einlesen.
+ * 
+ * @return int 
+ */
 int Explosion::getIdentifier() {
 	return _explosionType;
 }
 
+/**
+ * @brief Gibt den Explosionstyp zurück
+ * 
+ * @return ExplosionType Explosionstyp
+ */
 ExplosionType Explosion::getExplosionType() {
 	return _explosionType;
 }

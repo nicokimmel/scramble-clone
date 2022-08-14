@@ -14,13 +14,12 @@ EventManager::EventManager() {
  * 			Aufruf des Events die entsprechende Funktion ausführen zu
  * 			können.
  * 
- * @todo Pointer Adresse des Callbacks als Identifier nutzen.
- * 
  * @param identifier Identifikator
  * @param eventType Eventtyp
  * @param eventCallback Callback
  */
 void EventManager::registerEvent(std::string identifier, EventType eventType, eventCallback func) {
+	//TODO: Pointer des Callbacks als Identifikator
 	_eventMap[eventType][identifier] = func;
 }
 

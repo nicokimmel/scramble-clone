@@ -84,6 +84,7 @@ Vector2 Vector2::multiply(Vector2 vector) {
 	return *this;
 }
 
+//TODO: Dokumentieren
 bool Vector2::operator==(const Vector2 vector) {
 	if(_x == vector.getX()
 		&& _y == vector.getY()) {
@@ -92,6 +93,7 @@ bool Vector2::operator==(const Vector2 vector) {
 	return false;
 }
 
+//TODO: Dokumentieren
 bool Vector2::operator!=(const Vector2 vector) {
 	if(_x != vector.getX()
 		|| _y != vector.getY()) {
@@ -100,20 +102,24 @@ bool Vector2::operator!=(const Vector2 vector) {
 	return false;
 }
 
+//TODO: Dokumentieren
 Vector2 Vector2::operator+(const Vector2 vector) {
 	return Vector2(_x + vector.getX(), _y + vector.getY());
 }
 
+//TODO: Dokumentieren
 Vector2 Vector2::operator+=(const Vector2 vector) {
 	_x += vector.getX();
 	_y += vector.getY();
 	return *this;
 }
 
+//TODO: Dokumentieren
 Vector2 Vector2::operator-(const Vector2 vector) {
 	return Vector2(_x - vector.getX(), _y - vector.getY());
 }
 
+//TODO: Dokumentieren
 Vector2 Vector2::operator-=(const Vector2 vector) {
 	_x -= vector.getX();
 	_y -= vector.getY();

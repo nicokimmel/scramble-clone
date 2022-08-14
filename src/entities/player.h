@@ -4,11 +4,8 @@
 #include "../utils/base.h"
 
 #include <algorithm>
-#include <cmath>
 
 #include "./entity.h"
-#include "../events/eventdata.h"
-#include "../textures/texture.h"
 
 /**
  * @brief Modellklasse des Spielers

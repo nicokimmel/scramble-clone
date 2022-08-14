@@ -29,10 +29,9 @@ View::View() {
 
 /**
  * @brief Initialisierung der View
- * 
- * @todo Auslagern
  */
 void View::init() {
+	//TODO: Auslagern
 	SpriteInformation sp;
 	
 	sp.animationType = AnimationType::REPEAT;

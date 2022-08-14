@@ -1,5 +1,12 @@
 #include "controller.h"
 
+/**
+ * @brief Erstellt Objekt von Controller
+ * @details Erstellt Objekte von EventManager und LevelManager.
+ *			Lädt das erste Level.
+ * 
+ * @param view Objekt der Viewklasse
+ */
 Controller::Controller(std::shared_ptr<View> view) {
 	_view = view;
 	_frozen = false;
@@ -8,6 +15,11 @@ Controller::Controller(std::shared_ptr<View> view) {
 	_currentLevel = _levelManager->load("stageonesmall");
 }
 
+/**
+ * @brief Initialisiert den Controller
+ * @details Registriert Callbacks für Fenstereingaben und
+ * 			Zeitgeber für Animationen und Spielertreibstoff.
+ */
 void Controller::init() {
 	glfwSetWindowUserPointer(_view->getWindow(), this);
 	glfwSetKeyCallback(_view->getWindow(), [](GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -36,6 +48,7 @@ void Controller::init() {
 	});
 }
 
+//TODO: Dokumentieren
 void Controller::start() {
 	_running = true;
 	_ticks = 0, _fps = 0, _ups = 0;
@@ -105,6 +118,9 @@ void Controller::start() {
 	}
 }
 
+/**
+ * @brief Aktualisiert sekündlich Debuganzeigen im Titel
+ */
 void Controller::debug() {
 	double tNow = glfwGetTime();
 	if(tNow >= _nextDebug) {
@@ -117,11 +133,19 @@ void Controller::debug() {
 	}
 }
 
+/**
+ * @brief Stoppt den Controller
+ * @details Stoppt die Gameloop und schließt das Fenster.
+ */
 void Controller::stop() {
 	_running = false;
 	glfwTerminate();
 }
 
+/**
+ * @brief Überprüft Eingaben des Spielers
+ * @details Liest den Status der Tasten aus einer Hilfstabelle
+ */
 void Controller::checkInput() {
 	auto player = _currentLevel->getPlayer();
 	if(_input[GLFW_KEY_UP]) {
@@ -138,13 +162,14 @@ void Controller::checkInput() {
 	}
 }
 
+//TODO: Dokumentieren
 void Controller::checkCollision() {	
 	/*
 	std::vector<std::shared_ptr<Object>> list = std::vector<std::shared_ptr<Object>>();
 	for(auto entity : _currentLevel->getEntityList()) {
 		list.push_back(entity);
 	}
-	physics->checkCollision2(list, _currentLevel);
+	_physics->checkCollision2(list, _currentLevel);
 	*/
 	
 	std::vector<std::shared_ptr<Object>> playerRelatedEntitys = std::vector<std::shared_ptr<Object>>();
@@ -158,9 +183,12 @@ void Controller::checkCollision() {
 			playerRelatedEntitys.push_back(entity);
 		}
 	}
-	physics->checkCollision(playerRelatedEntitys, nonPlayerRelatedEntites, _currentLevel);
+	_physics->checkCollision(playerRelatedEntitys, nonPlayerRelatedEntites, _currentLevel);
 }
 
+/**
+ * @brief Überprüft ob Spieler abgestürtzt und stoppt Spiel falls Leben auf 0
+ */
 void Controller::checkPlayer() {
     auto player = _currentLevel->getPlayer();
     int lives = player->getLives();
@@ -185,6 +213,9 @@ void Controller::checkPlayer() {
     }
 }
 
+/**
+ * @brief Überprüft Raketen und startet sie, falls in Reichweite
+ */
 void Controller::checkRockets() {
     for(auto entity : _currentLevel->getEntityList()) {
         if(entity->getType() == EntityType::ROCKET) {

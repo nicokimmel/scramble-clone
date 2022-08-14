@@ -284,5 +284,7 @@ int Level::getAlpha(int x, int y) {
 	x = x/2;
 	y = y/2;
 	
+	//TODO: Warum manchmal Segfault?
+	// Eventuelle Lösung: Index ausrechnen und auf Plausibilität prüfen.
 	return _collisionMap[y * _width + x];
 }

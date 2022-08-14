@@ -10,13 +10,19 @@
 #include "../physics/object.h"
 #include "../physics/physics.h"
 
+/**
+ * @brief Arten der Entitäten
+ */
 enum EntityType {
 	NONE, PLAYER, LASER, MISSILE, ROCKET, BUILDING, UFO, METEOR, FUEL, BASE, EXPLOSION
 };
 
+/**
+ * @brief Überklasse aller im Spiel befindlichen Modellklassen
+ */
 class Entity : public Drawable, public Object {
 	protected:
-		std::shared_ptr<Physics> physics;
+		std::shared_ptr<Physics> _physics;
 		EntityType _type;
 		Vector2 _size;
 		Vector2 _position;

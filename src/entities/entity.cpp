@@ -1,17 +1,19 @@
 #include "entity.h"
 
+//TODO: Dokumentieren
 Entity::Entity() {
 	_type = EntityType::NONE;
+	_crashed = false;
 	setPosition(Vector2(0, 0));
 	setVelocity(Vector2(0, 0));
 	setSpeed(0);
 	setSize(0);
 	setRotation(0);
-	_crashed = false;
 }
 
+//TODO: Marlon fragen wieso Physics Pointer funktioniert ohne Initialisierung
 void Entity::updateEntity() {
-	physics->move(this);
+	_physics->move(this);
 	update();
 }
 

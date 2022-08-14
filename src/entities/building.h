@@ -5,9 +5,12 @@
 
 #include "./entity.h"
 
+/**
+ * @brief Modellklasse der nicht interaktiven Gebäude
+ */
 class Building : public Entity {
 	private:
-		uint _ticks;
+		
 	public:
 		Building();
 		void update();

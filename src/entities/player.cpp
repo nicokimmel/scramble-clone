@@ -37,6 +37,7 @@ void Player::update() {
  * @param collisionPartner Kollisionspartner
  */
 void Player::onCollision(std::shared_ptr<Object> collisionPartner) {
+	//TODO: Aufräumen
 	if(collisionPartner == nullptr) {
 		_crashed = true;
 		_lives -= 1;
@@ -79,7 +80,7 @@ void Player::moveUp() {
 	if(getPosition().getY() + getSize().getY() >= WINDOW_HEIGHT) {
 		return;
 	}
-	physics->move(this, 0, getSpeed());
+	_physics->move(this, 0, getSpeed());
 }
 
 /**
@@ -92,7 +93,7 @@ void Player::moveDown() {
 	if(getPosition().getY() <= 0) {
 		return;
 	}
-	physics->move(this, 0, -getSpeed());
+	_physics->move(this, 0, -getSpeed());
 }
 
 /**
@@ -105,7 +106,7 @@ void Player::moveLeft() {
 	if(getPosition().getX() <= 0) {
 		return;
 	}
-	physics->move(this, -getSpeed(), 0);
+	_physics->move(this, -getSpeed(), 0);
 }
 
 /**
@@ -118,7 +119,7 @@ void Player::moveRight() {
 	if(getPosition().getX() + getSize().getX() >= WINDOW_WIDTH / 2) {
 		return;
 	}
-	physics->move(this, getSpeed(), 0);
+	_physics->move(this, getSpeed(), 0);
 }
 
 /**

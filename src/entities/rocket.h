@@ -4,7 +4,6 @@
 #include "../utils/base.h"
 
 #include "./entity.h"
-#include "../textures/texture.h"
 
 /**
  * @brief Modellklasse für aufsteigende Raketen
