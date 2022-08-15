@@ -53,6 +53,7 @@ class Level : public Drawable, public World {
 		void iterate(entityCallback);
 		std::shared_ptr<Player> getPlayer();
 		std::vector<std::shared_ptr<Entity>> getEntityList();
+		std::vector<std::shared_ptr<Object>> getObjectList();
 		int getAlpha(int, int);
 };
 

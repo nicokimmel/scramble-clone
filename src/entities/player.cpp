@@ -20,8 +20,9 @@ void Player::onCollision(std::shared_ptr<Object> collisionPartner) {
 		return;
 	}
 	
-	auto entity = std::reinterpret_pointer_cast<Entity>(collisionPartner);
+	auto entity = std::static_pointer_cast<Entity>(collisionPartner);
 	auto entityType = entity->getType();
+
 	if(entityType != EntityType::BASE && entityType != EntityType::FUEL && entityType != EntityType::MISSILE && entityType != EntityType::LASER && entityType != EntityType::EXPLOSION) {
 		_crashed = true;
 		_lives -= 1;

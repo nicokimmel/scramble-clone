@@ -10,59 +10,68 @@ Entity::Entity() {
 	_crashed = false;
 }
 
+/**
+ * @brief Updates Entity
+ * @details Wird aus Controller aufgerufen und ruft die Update der jeweiligen Eintität auf und bewegt diese
+ * 
+ */
 void Entity::updateEntity() {
 	physics->move(this);
 	update();
 }
 
+/**
+ * @brief Gibt den Typ einer Entität zurück
+ * @details Wird verwendet um zu überprüfen um welche Art von Entität es sich handelt
+ * 
+ * @return Entitäten Typ als Enum Konstante
+ */
 EntityType Entity::getType() {
 	return _type;
 }
 
+/**
+ * @brief Gibt den Typ einer Entität zurück
+ * @details Wird verwendet um zu überprüfen um welche Art von Entität es sich handelt
+ * 
+ * @return Entitäten Typ als int id
+ */
 int Entity::getIdentifier() {
 	return _type;
 }
 
+/**
+ * @brief Gibt Koordinaten zurück
+ * @details Wird verwendet um die Koordinaten einer Entität auszulesen
+ * @return Vector2
+ */
 Vector2 Entity::getPosition() {
-	return _position;
+	return Object::getPosition();
 }
 
-void Entity::setPosition(Vector2 position) {
-	_position = position;
-}
-
-Vector2 Entity::getVelocity() {
-	return _velocity;
-}
-
-void Entity::setVelocity(Vector2 velocity) {
-	_velocity = velocity;
-}
-
-uint Entity::getSpeed() {
-	return _speed;
-}
-
-void Entity::setSpeed(uint speed) {
-	_speed = speed;
-}
-
+/**
+ * @brief Gibt Größe zurück
+ * @details Wird verwendet um die Größe einer Entität auszulesen
+ * @return Vector2
+ */
 Vector2 Entity::getSize() {
-	return _size;
+	return Object::getSize();
 }
 
-void Entity::setSize(Vector2 size) {
-	_size = size;
-}
-
+/**
+ * @brief Gibt die Rotation zurück
+ * @details Wird verwendet um die Rotation einer Entität auszulesen
+ * @return int
+ */
 int Entity::getRotation() {
-	return _rotation;
+	return Object::getRotation();
 }
 
-void Entity::setRotation(int rotation) {
-	_rotation = rotation;
-}
-
+/**
+ * @brief Gibt einen boolean zurück ob eine Entität gecrashed ist
+ * @details Wird verwendet um zu bestimmen ob nun eine Entität kollidiert ist oder nicht
+ * @return boolean
+ */
 bool Entity::hasCrashed() {
 	return _crashed;
 }

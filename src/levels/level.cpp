@@ -194,6 +194,19 @@ std::vector<std::shared_ptr<Entity>> Level::getEntityList() {
 	return _entityList;
 }
 
+/**
+ * @brief Gibt Pointer auf Entitätenliste zurück
+ * 
+ * @return Pointer auf Entitätenliste
+ */
+std::vector<std::shared_ptr<Object>> Level::getObjectList() {
+	std::vector<std::shared_ptr<Object>> entityList = std::vector<std::shared_ptr<Object>>();
+	for(auto entity : _entityList) {
+		entityList.push_back(entity);
+	}
+	return entityList;
+}
+
 int Level::getAlpha(int x, int y) {
 	if(x < 0) {
 		x = 0;

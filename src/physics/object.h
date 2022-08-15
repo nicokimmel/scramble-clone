@@ -8,18 +8,22 @@
 
 class Object {
     private:
-        
+        Vector2 _size;
+		Vector2 _position;
+		Vector2 _velocity;
+		uint _speed;
+		int _rotation;
     public:   
-        virtual Vector2 getSize() = 0;
-		virtual void setSize(Vector2) = 0;
-		virtual Vector2 getPosition() = 0;
-		virtual void setPosition(Vector2) = 0;
-		virtual Vector2 getVelocity() = 0;
-		virtual void setVelocity(Vector2) = 0;
-		virtual uint getSpeed() = 0;
-		virtual void setSpeed(uint) = 0;
-		virtual int getRotation() = 0;
-		virtual void setRotation(int) = 0;
+        Vector2 getSize();
+		void setSize(Vector2);
+		Vector2 getPosition();
+		void setPosition(Vector2);
+		Vector2 getVelocity();
+		void setVelocity(Vector2);
+		uint getSpeed();
+		void setSpeed(uint);
+		int getRotation();
+		void setRotation(int);
 		virtual void onCollision(std::shared_ptr<Object>) = 0;
 };
 

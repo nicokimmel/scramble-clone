@@ -75,8 +75,8 @@ void Controller::start() {
 						}
 					}
 				}
-				
-				checkCollision();
+
+				physics->checkCollision(_currentLevel);
 				checkPlayer();
 				checkRockets();
 			}
@@ -136,29 +136,6 @@ void Controller::checkInput() {
 	if(_input[GLFW_KEY_RIGHT]) {
 		player->moveRight();
 	}
-}
-
-void Controller::checkCollision() {	
-	/*
-	std::vector<std::shared_ptr<Object>> list = std::vector<std::shared_ptr<Object>>();
-	for(auto entity : _currentLevel->getEntityList()) {
-		list.push_back(entity);
-	}
-	physics->checkCollision2(list, _currentLevel);
-	*/
-	
-	std::vector<std::shared_ptr<Object>> playerRelatedEntitys = std::vector<std::shared_ptr<Object>>();
-	std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites = std::vector<std::shared_ptr<Object>>();
-
-	for(auto entity : _currentLevel->getEntityList()) {
-		if(entity->getType() == EntityType::EXPLOSION) { continue; }
-		if(entity->getType() != EntityType::PLAYER && entity->getType() != EntityType::MISSILE && entity->getType() != EntityType::LASER) {
-			nonPlayerRelatedEntites.push_back(entity);
-		} else {
-			playerRelatedEntitys.push_back(entity);
-		}
-	}
-	physics->checkCollision(playerRelatedEntitys, nonPlayerRelatedEntites, _currentLevel);
 }
 
 void Controller::checkPlayer() {

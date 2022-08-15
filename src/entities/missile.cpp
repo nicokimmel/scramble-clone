@@ -17,5 +17,15 @@ void Missile::update() {
 }
 
 void Missile::onCollision(std::shared_ptr<Object> collisionPartner) {
-	_crashed = true;
+	if(collisionPartner == nullptr) {
+		_crashed = true;
+		return;
+	}
+
+	auto entity = std::static_pointer_cast<Entity>(collisionPartner);
+	auto entityType = entity->getType();
+
+	if(entityType != EntityType::PLAYER && entityType != EntityType::MISSILE && entityType != EntityType::LASER && entityType != EntityType::EXPLOSION) {
+		_crashed = true;
+	}
 }

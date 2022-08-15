@@ -1,49 +1,54 @@
 #include "physics.h"
 
-void Physics::checkCollision2(std::vector<std::shared_ptr<Object>> entityList, std::shared_ptr<World> currentLevel) {
+/**
+ * @brief Vergleicht Objekte
+ * @details Iteriert über jedes Objekt um jedes mit jedem zu vergleichen ob eine Kollision vorliegt
+ * 
+ * @param currentLevel World Object damit auf Level Objeckte innerhalb des Level zugegriffen werden kann
+ */
+void Physics::checkCollision(std::shared_ptr<World> currentLevel) {
 	auto checkedEntities = std::vector<std::shared_ptr<Object>>();
-	
-    for(auto entity1 : entityList) {
-		for(auto entity2 : entityList) {
+	auto list = currentLevel->getObjectList();
+
+	bool inList = false;
+
+    for(auto entity1 : list) {
+		for(auto entity2 : list) {
 			if(entity1 == entity2) {
 				continue;
 			}
-			
-			if(std::find(checkedEntities.begin(), checkedEntities.end(), entity1) != checkedEntities.end()) {
+
+			for(auto checked : checkedEntities) {
+				if(checked == entity2) {
+					inList == true;
+					break;
+				}
+			}
+			if(inList) {
 				continue;
 			}
-			checkedEntities.push_back(entity1);
-			checkedEntities.push_back(entity2);
-			
+
 			if(checkCollision_Objects(entity1.get(), entity2.get())) {
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
-                //std::cout << "Colission Entity" << std::endl;
 			}
 		}
         if(checkCollision_World(entity1.get(), currentLevel.get())) {
             entity1->onCollision(nullptr);
-			//std::cout << "Colission World" << std::endl;
         }
+		checkedEntities.push_back(entity1);
 	}
 }
 
-void Physics::checkCollision(std::vector<std::shared_ptr<Object>> playerRelatedEntitys, std::vector<std::shared_ptr<Object>> nonPlayerRelatedEntites, std::shared_ptr<World> currentLevel) {
-	for(auto entity1 : playerRelatedEntitys) {
-		for(auto entity2 : nonPlayerRelatedEntites) {
-			if(checkCollision_Objects(entity1.get(), entity2.get())) {
-			 	entity1->onCollision(entity2);
-				entity2->onCollision(entity1);
-				//std::cout << "Colission Entity" << std::endl;
-			}
-		}
-		if(checkCollision_World(entity1.get(), currentLevel.get())) {
-			entity1->onCollision(nullptr);
-			//std::cout << "Colission World" << std::endl;
-		}
-	}
-}
-
+/**
+ * @brief Checkt Collsion
+ * @details Vergleicht zwei übergebene Objekte miteinander ob sie ineinander liegen anhand ihrer Eckpunkte
+ * 
+ * @param a Übergebenes Objekt a
+ * @param b Übergebenes Objekt b
+ * 
+ * @return boolean ob Kollision vorhanden oder nicht
+ */
 bool Physics::checkCollision_Objects(Object *a, Object *b) {
 	Vector2 maxA(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
 	Vector2 minA(a->getPosition().getX(), a->getPosition().getY());
@@ -57,6 +62,15 @@ bool Physics::checkCollision_Objects(Object *a, Object *b) {
     return true;
 }
 
+/**
+ * @brief Checkt Collsion
+ * @details Vergleicht ein übergebene Objekte und die Spielwelt ob sie ineinander liegen anhand der Alpha Kanäle
+ * 
+ * @param a Übergebenes Objekt a
+ * @param b Übergebene Welt b
+ * 
+ * @return boolean ob Kollision vorhanden oder nicht
+ */
 bool Physics::checkCollision_World(Object *a, World *b) {
 	Vector2 max(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
 	Vector2 min(a->getPosition().getX(), a->getPosition().getY());
@@ -69,11 +83,25 @@ bool Physics::checkCollision_World(Object *a, World *b) {
     return false;
 }
 
+/**
+ * @brief Bewegt Objekt
+ * @details Übergebenes Objekt wird anhand seiner Geschwindigkeit auf seine neue Possition gesetzt
+ * 
+ * @param a Übergebenes Objekt a
+ * 
+ */
 void Physics::move(Object *a) {
 	auto pos = a->getPosition().add(a->getVelocity());
 	a->setPosition(pos);
 }
 
+/**
+ * @brief Bewegt Objekt
+ * @details Übergebenes Objekt wird anhand einer übergebenen Geschwindigkeit auf seine neue Possition gesetzt
+ * 
+ * @param a Übergebenes Objekt a
+ * 
+ */
 void Physics::move(Object *a, int vx, int vy) {
 	auto pos = a->getPosition().add(vx, vy);
     a->setPosition(pos);
