@@ -14,7 +14,7 @@
  * @param player Pointer auf Spielerobjekt
  * @param entityList Liste aller Entitäten
  */
-Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::shared_ptr<Player> player, std::vector<std::shared_ptr<Entity>> entityList, int collisionMap[]) {
+Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::shared_ptr<Player> player, std::vector<std::shared_ptr<Entity>> entityList, std::vector<int> collisionMap) {
 	_name = name;
 	_width = width;
 	_height = height;
@@ -42,6 +42,17 @@ std::string Level::getName() const {
 	return _name;
 }
 
+/**
+ * @brief Gibt Identifier des Levels zurück
+ * @details Dieser ist immer 99 für alle Levels.
+ * 			Die View nutzt diese Funktion um Texturen
+ * 			je nach Entitätentyp einzulesen.
+ * 
+ * @see Drawable
+ * @see View
+ * 
+ * @return int 
+ */
 int Level::getIdentifier() {
 	return 99;
 }
@@ -64,6 +75,19 @@ uint Level::getHeight() const {
 	return _height;
 }
 
+/**
+ * @brief Gibt die Größe des Levels zurück
+ * @details Das Level ist um 50% komprimiert um die
+ * 			Zeit zum Einlesen zu verkürzen, weshalb
+ * 			Höhe und Breite verdoppelt werden.
+ * 			So füllt es nach dem Zeichnen der View
+ * 			wieder das komplette Fenster aus.
+ * 
+ * @see Drawable
+ * @see View
+ * 
+ * @return Vector2 
+ */
 Vector2 Level::getSize() {
 	return Vector2(_width * 2, _height * 2);
 }
@@ -88,6 +112,17 @@ void Level::setOffset(uint offset) {
 	_offset = offset;
 }
 
+/**
+ * @brief Gibt die Position des Levels zurück
+ * @details Gleichbedeutend wie der negative Offset.
+ * 			Muss wegen des Drawable Interfaces
+ * 			implementiert werden.
+ * 
+ * @see Drawable
+ * @see View
+ * 
+ * @return Vector2 Position
+ */
 Vector2 Level::getPosition() {
 	return Vector2(-_offset, 0);
 }
@@ -97,7 +132,7 @@ Vector2 Level::getPosition() {
  * @details Mit dieser Geschwindigkeit bewegen sich auch alle
  * 			Entitäten nach Links um einen Flug zu simulieren.
  * 
- * @return Bewegungsgeschwindigkeit 
+ * @return uint Bewegungsgeschwindigkeit 
  */
 uint Level::getScrollSpeed() {
 	return _scrollSpeed;
@@ -114,10 +149,26 @@ void Level::setScrollSpeed(uint scrollSpeed) {
 	_scrollSpeed = scrollSpeed;
 }
 
+/**
+ * @brief Gibt die Rotation des Levels zurück
+ * @details Diese ist immer 0; Die Funktion muss allerdings
+ * 			durch das Drawable Interface implementiert werden.
+ * 
+ * @see Drawable
+ * @see View
+ * 
+ * @return int Rotation
+ */
 int Level::getRotation() {
 	return 0;
 }
 
+/**
+ * @brief Erstellt eine Entität je nach Typ
+ * 
+ * @param type Entitätentyp
+ * @return std::shared_ptr<Entity> Entität
+ */
 std::shared_ptr<Entity> Level::spawn(EntityType type) {
 	std::shared_ptr<Entity> entity;
 	
@@ -138,11 +189,26 @@ std::shared_ptr<Entity> Level::spawn(EntityType type) {
 	return entity;
 }
 
+/**
+ * @brief Löscht eine Entität
+ * 
+ * @param target Zielentität
+ */
 void Level::despawn(std::shared_ptr<Entity> target) {
 	auto iterator = std::find_if(_entityList.begin(), _entityList.end(), [&](const std::shared_ptr<Entity> entity) { return entity == target; });
 	_entityList.erase(iterator);
 }
 
+/**
+ * @brief Lässt eine Entität explodieren
+ * @details Löscht die Zielentität und erstellt eine neue Entität
+ * 			vom Typ "Explosion". Dieser bekommt je nach Entitätentyp
+ * 			einen anderen Explosionstypen.
+ * 			Wird an der gleichen Position erstellt.
+ * 
+ * @param target 
+ * @return std::shared_ptr<Entity> 
+ */
 std::shared_ptr<Entity> Level::explode(std::shared_ptr<Entity> target) {
 	auto pos = Vector2(target->getPosition().getX() + target->getSize().getX() / 2, target->getPosition().getY() + target->getSize().getY() / 2);
 	
@@ -207,6 +273,17 @@ std::vector<std::shared_ptr<Object>> Level::getObjectList() {
 	return entityList;
 }
 
+/**
+ * @brief Gibt den Transparenzwert an Pixel X/Y aus.
+ * @details Damit kann eine pixelgenaue Kollision
+ * 			abgefragt werden.
+ * 
+ * @see Physics
+ * 
+ * @param x X-Koodinate
+ * @param y Y-Koodinate
+ * @return int Transparenzwert
+ */
 int Level::getAlpha(int x, int y) {
 	if(x < 0) {
 		x = 0;
@@ -220,5 +297,13 @@ int Level::getAlpha(int x, int y) {
 	x = x/2;
 	y = y/2;
 	
-	return _collisionMap[y * _width + x];
+	int index = y * _width + x;
+	
+	if(index < 0 || index > _collisionMap.size() - 1){
+		std::cout << "Return zero = " << index << "\n";
+		std::cout << "X = " << x << "  Y = " << y << "\n"; 
+	}
+	//TODO: Warum manchmal Segfault?
+	// Eventuelle Lösung: Index ausrechnen und auf Plausibilität prüfen.
+	return (index < 0 || index > _collisionMap.size() - 1) ? 0 : _collisionMap[index];
 }

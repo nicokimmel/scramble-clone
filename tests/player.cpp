@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
 	
-	auto player = std::make_unique<Player>();
+	auto player = std::make_shared<Player>();
 	
 	/**
 	 * Spieler kollidiert mit seinem eigenen Laser.
@@ -11,18 +11,18 @@ int main(int argc, char** argv) {
 	 * Erwartung:	Leben bleibt auf 3, Raumschiff stürzt
 	 * 				nicht ab.
 	 */
-	player->onCollision(std::make_unique<Laser>());
+	player->onCollision(EntityType::LASER);
 	assert(player->getLives() == 3);
 	assert(player->hasCrashed() == false);
 	
-	
+	    
 	/**
 	 * Spieler kollidiert mit der Welt.
 	 * 
 	 * Erwartung:	Leben werden von 3 auf 2 verringert
 	 * 				und _crashed wird auf TRUE gesetzt.
 	 */
-	player->onCollision(nullptr);
+	player->onCollision(EntityType::NONE);
 	assert(player->getLives() == 2);
 	assert(player->hasCrashed() == true);
 	
@@ -73,7 +73,6 @@ int main(int argc, char** argv) {
 	player->onFuel();
 	assert(player->getSpeed() == 0);
 	assert(player->getVelocity() == Vector2(2, -2));
-	
 	
 	return 0;
 }

@@ -1,13 +1,26 @@
 #include "controller.h"
 
+/**
+ * @brief Erstellt Objekt von Controller
+ * @details Erstellt Objekte von EventManager und LevelManager.
+ *			Lädt das erste Level.
+ * 
+ * @param view Objekt der Viewklasse
+ */
 Controller::Controller(std::shared_ptr<View> view) {
 	_view = view;
 	_frozen = false;
 	_eventManager = std::make_shared<EventManager>();
 	_levelManager = std::make_shared<LevelManager>(view);
+	_physics = std::make_shared<Physics>();
 	_currentLevel = _levelManager->load("stageonesmall");
 }
 
+/**
+ * @brief Initialisiert den Controller
+ * @details Registriert Callbacks für Fenstereingaben und
+ * 			Zeitgeber für Animationen und Spielertreibstoff.
+ */
 void Controller::init() {
 	glfwSetWindowUserPointer(_view->getWindow(), this);
 	glfwSetKeyCallback(_view->getWindow(), [](GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -36,6 +49,7 @@ void Controller::init() {
 	});
 }
 
+//TODO: Dokumentieren
 void Controller::start() {
 	_running = true;
 	_ticks = 0, _fps = 0, _ups = 0;
@@ -71,12 +85,12 @@ void Controller::start() {
 							_view->startAnimation(explosion);
 							_eventManager->callLater(500, [this, explosion]() {
 								_currentLevel->despawn(explosion);
-							});
+							});	
 						}
 					}
 				}
 
-				physics->checkCollision(_currentLevel);
+				_physics->checkCollision(_currentLevel);
 				checkPlayer();
 				checkRockets();
 			}
@@ -105,6 +119,9 @@ void Controller::start() {
 	}
 }
 
+/**
+ * @brief Aktualisiert sekündlich Debuganzeigen im Titel
+ */
 void Controller::debug() {
 	double tNow = glfwGetTime();
 	if(tNow >= _nextDebug) {
@@ -117,11 +134,19 @@ void Controller::debug() {
 	}
 }
 
+/**
+ * @brief Stoppt den Controller
+ * @details Stoppt die Gameloop und schließt das Fenster.
+ */
 void Controller::stop() {
 	_running = false;
 	glfwTerminate();
 }
 
+/**
+ * @brief Überprüft Eingaben des Spielers
+ * @details Liest den Status der Tasten aus einer Hilfstabelle
+ */
 void Controller::checkInput() {
 	auto player = _currentLevel->getPlayer();
 	if(_input[GLFW_KEY_UP]) {
@@ -138,6 +163,9 @@ void Controller::checkInput() {
 	}
 }
 
+/**
+ * @brief Überprüft ob Spieler abgestürtzt und stoppt Spiel falls Leben auf 0
+ */
 void Controller::checkPlayer() {
     auto player = _currentLevel->getPlayer();
     int lives = player->getLives();
@@ -162,15 +190,35 @@ void Controller::checkPlayer() {
     }
 }
 
+/**
+ * @brief Überprüft Raketen und startet sie, falls in Reichweite
+ */
 void Controller::checkRockets() {
     for(auto entity : _currentLevel->getEntityList()) {
         if(entity->getType() == EntityType::ROCKET) {
-            auto rocket = std::reinterpret_pointer_cast<Rocket>(entity);
+            auto rocket = std::static_pointer_cast<Rocket>(entity);
             auto player = _currentLevel->getPlayer();
             if(player->getPosition().getX() + player->getSize().getX() >= entity->getPosition().getX() - 100) {
                 rocket->launch();
                 _view->startAnimation(rocket);
             }
+			if(rocket->getPosition().getY() > WINDOW_HEIGHT || rocket->getPosition().getX() + rocket->getSize().getX() < 0) {
+				_currentLevel->despawn(rocket);
+			}
+        }
+		if(entity->getType() == EntityType::LASER) {
+            auto laser = std::static_pointer_cast<Laser>(entity);
+			if(laser->getPosition().getX() > WINDOW_WIDTH) {
+				_currentLevel->despawn(laser);
+			}
+        }
+		if(entity->getType() == EntityType::EXPLOSION) {
+            auto explosion = std::static_pointer_cast<Explosion>(entity);
+			if(explosion->getPosition().getY() > WINDOW_HEIGHT || explosion->getPosition().getX() + explosion->getSize().getX() < 0) {
+				std::cout << "TEST POS X EXPLSIOMN = " << explosion->getPosition().getX() << std::endl;
+				_currentLevel->despawn(explosion);
+				
+			}
         }
     }
 }

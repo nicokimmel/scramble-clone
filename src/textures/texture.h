@@ -10,10 +10,18 @@
 #include <fstream>
 #include <vector>
 
+/**
+ * @brief Arten von Animationen
+ */
 enum AnimationType {
 	STATIC, ONCE, REPEAT
 };
 
+/**
+ * @brief Informationsblock über Sprites
+ * @details Enthält den Animationstyp, die Anzahl der Bilder
+ * 			innerhalb des Sprites und den Pfad zur Datei.
+ */
 struct SpriteInformation {
 	AnimationType animationType;
 	int spriteCount;
@@ -25,8 +33,6 @@ struct SpriteInformation {
  * @details Bietet Funktionen um Bitmaps intern zu verwalten und
  * 			Informationen wie Höhe, Breite und Pixeldaten aus jener
  * 			auszulesen. Erstellt eine TextureID für OpenGL.
- * 
- * @todo Animationen
  */
 class Texture {
 	private:

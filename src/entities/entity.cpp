@@ -1,13 +1,15 @@
 #include "entity.h"
 
+//TODO: Dokumentieren
 Entity::Entity() {
+	_physics = std::make_shared<Physics>();
 	_type = EntityType::NONE;
+	_crashed = false;
 	setPosition(Vector2(0, 0));
 	setVelocity(Vector2(0, 0));
 	setSpeed(0);
 	setSize(0);
 	setRotation(0);
-	_crashed = false;
 }
 
 /**
@@ -16,8 +18,24 @@ Entity::Entity() {
  * 
  */
 void Entity::updateEntity() {
-	physics->move(this);
+	_physics->move(shared_from_this());
 	update();
+}
+
+/**
+ * @brief Entity kollidiert
+ * @details Wird von Physics aufgerufen wenn eine Entität mit einer anderen ode der Welt kollidiert
+ * 
+ *  * @param collisionPartner Übergebenes Objekt collisionPartner vom Typ std::shared_ptr<Object>
+ */
+void Entity::onCollision(std::shared_ptr<Object> collisionPartner) {
+	if(collisionPartner == nullptr) {
+		onCollision(EntityType::NONE);
+	}else {
+		auto entity = std::static_pointer_cast<Entity>(collisionPartner);
+		auto entityType = entity->getType();
+		onCollision(entityType);
+	}
 }
 
 /**

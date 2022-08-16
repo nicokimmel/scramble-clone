@@ -28,12 +28,12 @@ void Physics::checkCollision(std::shared_ptr<World> currentLevel) {
 				continue;
 			}
 
-			if(checkCollision_Objects(entity1.get(), entity2.get())) {
+			if(checkCollision_Objects(entity1, entity2)) {
 				entity1->onCollision(entity2);
 				entity2->onCollision(entity1);
 			}
 		}
-        if(checkCollision_World(entity1.get(), currentLevel.get())) {
+        if(checkCollision_World(entity1, currentLevel)) {
             entity1->onCollision(nullptr);
         }
 		checkedEntities.push_back(entity1);
@@ -49,7 +49,7 @@ void Physics::checkCollision(std::shared_ptr<World> currentLevel) {
  * 
  * @return boolean ob Kollision vorhanden oder nicht
  */
-bool Physics::checkCollision_Objects(Object *a, Object *b) {
+bool Physics::checkCollision_Objects(std::shared_ptr<Object> a, std::shared_ptr<Object> b) {
 	Vector2 maxA(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
 	Vector2 minA(a->getPosition().getX(), a->getPosition().getY());
 	
@@ -71,10 +71,10 @@ bool Physics::checkCollision_Objects(Object *a, Object *b) {
  * 
  * @return boolean ob Kollision vorhanden oder nicht
  */
-bool Physics::checkCollision_World(Object *a, World *b) {
+bool Physics::checkCollision_World(std::shared_ptr<Object> a, std::shared_ptr<World> b) {
 	Vector2 max(a->getPosition().getX() + a->getSize().getX(), a->getPosition().getY() + a->getSize().getY());
 	Vector2 min(a->getPosition().getX(), a->getPosition().getY());
-	
+
     if(b->getAlpha(min.getX(), min.getY()) == 255) return true;
     if(b->getAlpha(min.getX(), max.getY()) == 255) return true;
     if(b->getAlpha(max.getX(), min.getY()) == 255) return true;
@@ -90,7 +90,7 @@ bool Physics::checkCollision_World(Object *a, World *b) {
  * @param a Übergebenes Objekt a
  * 
  */
-void Physics::move(Object *a) {
+void Physics::move(std::shared_ptr<Object> a) {
 	auto pos = a->getPosition().add(a->getVelocity());
 	a->setPosition(pos);
 }
@@ -102,7 +102,7 @@ void Physics::move(Object *a) {
  * @param a Übergebenes Objekt a
  * 
  */
-void Physics::move(Object *a, int vx, int vy) {
+void Physics::move(std::shared_ptr<Object> a, int vx, int vy) {
 	auto pos = a->getPosition().add(vx, vy);
     a->setPosition(pos);
 }

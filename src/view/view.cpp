@@ -28,11 +28,10 @@ View::View() {
 }
 
 /**
- * @brief Buffert Texturen für Entities
- * 
- * @todo Auslagern
+ * @brief Initialisierung der View
  */
 void View::init() {
+	//TODO: Auslagern
 	SpriteInformation sp;
 	
 	sp.animationType = AnimationType::REPEAT;
@@ -147,10 +146,20 @@ void View::render(std::shared_ptr<Drawable> drawable) {
 	glDrawArrays(GL_QUADS, 0, 4);
 }
 
+/**
+ * @brief Startet Animation für Drawable Objekt
+ * 
+ * @param drawable Drawable Objekt
+ */
 void View::startAnimation(std::shared_ptr<Drawable> drawable) {
 	_textureBuffer[drawable]->toggleAnimation(true);
 }
 
+/**
+ * @brief Stoppt Animation für Drawable Objekt
+ * 
+ * @param drawable Drawable Objekt
+ */
 void View::stopAnimation(std::shared_ptr<Drawable> drawable) {
 	_textureBuffer[drawable]->toggleAnimation(false);
 }
@@ -169,6 +178,15 @@ void View::flip() {
 	glfwSwapBuffers(_window);
 }
 
+/**
+ * @brief Callbackfunktion für Animationen
+ * @details Wird innerhalb einer registerUpdate() alle 150ms
+ * 			aufgerufen um die Animation aller Entitäten zu
+ * 			aktualisieren
+ * 
+ * @see Controller
+ * @see EventManager
+ */
 void View::tick() {
 	for(auto entry : _textureBuffer) {
 		entry.second->next();

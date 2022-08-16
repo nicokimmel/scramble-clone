@@ -4,15 +4,17 @@
 #include "../utils/base.h"
 
 #include "./entity.h"
-#include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse der Tanks am Boden
+ */
 class Fuel : public Entity {
 	private:
 		
 	public:
 		Fuel();
 		void update();
-		void onCollision(std::shared_ptr<Object>);
+		void onCollision(EntityType);
 };
 
 #endif //SCRAMBLE_FUEL_H

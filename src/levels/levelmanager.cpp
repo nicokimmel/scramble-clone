@@ -16,6 +16,7 @@ LevelManager::LevelManager(std::shared_ptr<View> view) {
  * 			Entites.
  * 			Lässt die Leveltextur von der View buffern.
  * 			Erstellt auch ein Spielerobjekt.
+ * 			Befüllt eine Kollisionsliste mit der Transparenz des Levels an Pixel X/Y.
  * 
  * @see https://docs.google.com/spreadsheets/d/1P4jnQqbnV6f9iMamDetU1nkwRxaJxuRgE43Ap-PSlX0
  * 
@@ -82,7 +83,7 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 	file.read(pixelData, pixelDataSize);
 	
 	int i = 0;
-	auto collisionMap = new int[width * height];
+	auto collisionMap = std::vector<int>(width * height);
 	for(int y = 0; y < height; y++) {
 		for(int x = 0; x < width; x++) {
 			collisionMap[y * width + x] = byte_to_uint8(pixelData, i * 4 + 3);

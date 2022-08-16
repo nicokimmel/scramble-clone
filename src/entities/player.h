@@ -4,12 +4,12 @@
 #include "../utils/base.h"
 
 #include <algorithm>
-#include <cmath>
 
 #include "./entity.h"
-#include "../events/eventdata.h"
-#include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse des Spielers
+ */
 class Player : public Entity {
 	private:
 		int _lives;
@@ -17,7 +17,7 @@ class Player : public Entity {
 	public:
 		Player();
 		void update();
-		void onCollision(std::shared_ptr<Object>);
+		void onCollision(EntityType entityType);
 		void onFuel();
 		void moveUp();
 		void moveDown();

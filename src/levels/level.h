@@ -31,10 +31,10 @@ class Level : public Drawable, public World {
 		uint _scrollSpeed;
 		std::shared_ptr<Player> _player;
 		std::vector<std::shared_ptr<Entity>> _entityList;
-		int* _collisionMap;
+		std::vector<int> _collisionMap;
 		uint _offset;
 	public:
-		Level(std::string, uint, uint, uint, std::shared_ptr<Player>, std::vector<std::shared_ptr<Entity>>, int[]);
+		Level(std::string, uint, uint, uint, std::shared_ptr<Player>, std::vector<std::shared_ptr<Entity>>, std::vector<int>);
 		void update();
 		std::string getName() const;
 		int getIdentifier();

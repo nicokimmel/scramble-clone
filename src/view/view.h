@@ -24,6 +24,7 @@ struct Vertex {
  * @brief Verwaltet OpenGL Fenster und zeichnet Drawable Objekte
  * @details Buffert Drawable Objekte und speichert dessen Vertices,
  * 			Texturkoordinaten und TextureIDs in Hilfslisten.
+ * 			Spielt auch Animationen ab und startet/stoppt diese.
  */
 class View {
 	private:

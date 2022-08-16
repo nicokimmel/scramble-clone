@@ -4,15 +4,17 @@
 #include "../utils/base.h"
 
 #include "./entity.h"
-#include "../textures/texture.h"
 
+/**
+ * @brief Modellklasse für aufsteigende Raketen
+ */
 class Rocket : public Entity {
 	private:
 		
 	public:
 		Rocket();
 		void update();
-		void onCollision(std::shared_ptr<Object>);
+		void onCollision(EntityType);
 		void launch();
 };
 

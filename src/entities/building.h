@@ -5,13 +5,16 @@
 
 #include "./entity.h"
 
+/**
+ * @brief Modellklasse der nicht interaktiven Gebäude
+ */
 class Building : public Entity {
 	private:
-		uint _ticks;
+		
 	public:
 		Building();
 		void update();
-		void onCollision(std::shared_ptr<Object>);
+		void onCollision(EntityType);
 };
 
 #endif //SCRAMBLE_BUILDING_H

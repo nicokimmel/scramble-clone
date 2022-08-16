@@ -28,6 +28,7 @@ struct UpdateInformation {
 
 /**
  * @brief Verwaltet Ereignisse und ruft passende Callback Funktionen auf
+ * @details Dient auch als Taktgeber
  */
 class EventManager {
 	private:
