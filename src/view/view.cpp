@@ -31,53 +31,15 @@ View::View() {
  * @brief Initialisierung der View
  */
 void View::init() {
-	//TODO: Auslagern
-	SpriteInformation sp;
-	
-	sp.animationType = AnimationType::REPEAT;
-	sp.spriteCount = 4;
-	sp.spriteFile = "./assets/player.bmp";
-	_spriteList[EntityType::PLAYER] = sp;
-	
-	sp.animationType = AnimationType::STATIC;
-	sp.spriteCount = 1;
-	sp.spriteFile = "./assets/laser.bmp";
-	_spriteList[EntityType::LASER] = sp;
-	
-	sp.animationType = AnimationType::ONCE;
-	sp.spriteCount = 6;
-	sp.spriteFile = "./assets/missile.bmp";
-	_spriteList[EntityType::MISSILE] = sp;
-	
-	sp.animationType = AnimationType::ONCE;
-	sp.spriteCount = 3;
-	sp.spriteFile = "./assets/rocket.bmp";
-	_spriteList[EntityType::ROCKET] = sp;
-	
-	sp.animationType = AnimationType::STATIC;
-	sp.spriteCount = 1;
-	sp.spriteFile = "./assets/building.bmp";
-	_spriteList[EntityType::BUILDING] = sp;
-	
-	sp.animationType = AnimationType::STATIC;
-	sp.spriteCount = 1;
-	sp.spriteFile = "./assets/fuel.bmp";
-	_spriteList[EntityType::FUEL] = sp;
-	
-	sp.animationType = AnimationType::REPEAT;
-	sp.spriteCount = 4;
-	sp.spriteFile = "./assets/explosion-default.bmp";
-	_spriteList[ExplosionType::EDEFAULT] = sp;
-	
-	sp.animationType = AnimationType::REPEAT;
-	sp.spriteCount = 7;
-	sp.spriteFile = "./assets/explosion-player.bmp";
-	_spriteList[ExplosionType::EPLAYER] = sp;
-	
-	sp.animationType = AnimationType::REPEAT;
-	sp.spriteCount = 4;
-	sp.spriteFile = "./assets/sky.bmp";
-	_spriteList[EntityType::SKY] = sp;
+	_spriteList[EntityType::PLAYER] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/player.bmp");
+	_spriteList[EntityType::LASER] = SpriteInformation(AnimationType::STATIC, 1, "./assets/laser.bmp");
+	_spriteList[EntityType::MISSILE] = SpriteInformation(AnimationType::ONCE, 6, "./assets/missile.bmp");
+	_spriteList[EntityType::ROCKET] = SpriteInformation(AnimationType::ONCE, 3, "./assets/rocket.bmp");
+	_spriteList[EntityType::BUILDING] = SpriteInformation(AnimationType::STATIC, 1, "./assets/building.bmp");
+	_spriteList[EntityType::FUEL] = SpriteInformation(AnimationType::STATIC, 1, "./assets/fuel.bmp");
+	_spriteList[ExplosionType::EDEFAULT] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/explosion-default.bmp");
+	_spriteList[ExplosionType::EPLAYER] = SpriteInformation(AnimationType::REPEAT, 7, "./assets/explosion-player.bmp");
+	_spriteList[EntityType::SKY] = SpriteInformation(AnimationType::REPEAT, 4, "./assets/sky.bmp");
 }
 
 /**
@@ -104,8 +66,8 @@ void View::buffer(std::shared_ptr<Drawable> drawable) {
  * 			vorliegt. Erstellt Buffer für Vertices des Objektes und speichert
  * 			TextureID und VertexID in eine Hilfsliste.
  * 
- * @param drawable 
- * @param texture 
+ * @param drawable
+ * @param texture
  */
 void View::buffer(std::shared_ptr<Drawable> drawable, std::shared_ptr<Texture> texture) {
 	_textureBuffer[drawable] = texture;
@@ -113,10 +75,10 @@ void View::buffer(std::shared_ptr<Drawable> drawable, std::shared_ptr<Texture> t
 	Vector2 size = drawable->getSize();
 	
 	Vertex vertices[] = {
-		{{0.0f, 0.0f, 0.0f},				{0.0f, 0.0f}},
-		{{size.getX(), 0.0f, 0.0f},			{1.0f, 0.0f}},
-		{{size.getX(), size.getY(), 0.0f},	{1.0f, 1.0f}},
-		{{0.0f, size.getY(), 0.0f},			{0.0f, 1.0f}}
+		{{0.0f,			0.0f,		 0.0f},	{0.0f, 0.0f}},
+		{{size.getX(),	0.0f,		 0.0f},	{1.0f, 0.0f}},
+		{{size.getX(),	size.getY(), 0.0f},	{1.0f, 1.0f}},
+		{{0.0f,			size.getY(), 0.0f},	{0.0f, 1.0f}}
 	};
 	
 	GLuint vertexBufferId;

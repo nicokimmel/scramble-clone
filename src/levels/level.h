@@ -16,6 +16,17 @@
 
 typedef std::function<void(std::shared_ptr<Entity>)> entityCallback;
 
+struct LevelInformation {
+	std::string name;
+	uint width;
+	uint height;
+	uint scrollSpeed;
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Sky> sky;
+	std::vector<std::shared_ptr<Entity>> entityList;
+	std::vector<int> collisionMap;
+};
+
 /**
  * @brief Hält Informationen über ein Level
  * @details Levelobjekte werden vom LevelManager erstellt.
@@ -36,7 +47,7 @@ class Level : public Drawable, public World {
 		std::vector<int> _collisionMap;
 		uint _offset;
 	public:
-		Level(std::string, uint, uint, uint, std::shared_ptr<Player>, std::shared_ptr<Sky>, std::vector<std::shared_ptr<Entity>>, std::vector<int>);
+		Level(LevelInformation);
 		void update();
 		std::string getName() const;
 		int getIdentifier();

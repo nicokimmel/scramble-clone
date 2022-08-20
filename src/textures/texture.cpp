@@ -96,6 +96,7 @@ void Texture::buffer(const char* path, uint spriteCount, uint* width, uint* heig
 	int spriteDataSize = *width * *height * 4;
 	
 	for(int i = 0; i < spriteCount; i++) {
+		// Speicher wird von generate() freigegeben
 		char* data = (char*)malloc(spriteDataSize);
 		file.read(data, spriteDataSize);
 		

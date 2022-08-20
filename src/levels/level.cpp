@@ -2,28 +2,22 @@
 
 /**
  * @brief Erstellt Objekt der Levelklasse
- * @details Wird vom LevelManager aufgerufen.
+ * @details Wird vom LevelManager erstellt.
  * 			Enthält alle Informationen über das Level.
  * 
  * @see LevelManager::load()
  * 
- * @param name Name des Levels
- * @param width Breite des Levels
- * @param height Höhe des Levels
- * @param scrollSpeed Bewegungsgeschwindigkeit
- * @param player Pointer auf Spielerobjekt
- * @param entityList Liste aller Entitäten
+ * @param LevelInformation info
  */
-//TODO: LevelInformation struct zusammenfassen
-Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::shared_ptr<Player> player, std::shared_ptr<Sky> sky, std::vector<std::shared_ptr<Entity>> entityList, std::vector<int> collisionMap) {
-	_name = name;
-	_width = width;
-	_height = height;
-	_scrollSpeed = scrollSpeed;
-	_player = player;
-	_sky = sky;
-	_entityList = entityList;
-	_collisionMap = collisionMap;
+Level::Level(LevelInformation info) {
+	_name = info.name;
+	_width = info.width;
+	_height = info.height;
+	_scrollSpeed = info.scrollSpeed;
+	_player = info.player;
+	_sky = info.sky;
+	_entityList = info.entityList;
+	_collisionMap = info.collisionMap;
 	_offset = 0;
 }
 

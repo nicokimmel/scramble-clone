@@ -52,12 +52,7 @@ void EventManager::fireEvent(const EventType eventType, std::shared_ptr<EventDat
  * @param func Callbackfunktion
  */
 void EventManager::registerUpdate(std::string identifier, uint ms, callback func) {
-	UpdateInformation ui;
-	ui.ms = ms;
-	ui.func = func;
-	ui.first = true;
-	ui.remove = false;
-	_updateMap[identifier] = ui;
+	_updateMap[identifier] = UpdateInformation(ms, func, true, false);
 }
 
 /**

@@ -80,10 +80,9 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 		
 		entityList.push_back(entity);
 	}
-		
-	// Speicher wird von der Texturenklasse
-	// automatisch wieder freigegeben.
+	
 	uint pixelDataSize = width * height * 4;
+	// Speicher wird von Texturenklasse freigegeben
 	char* pixelData = (char*)malloc(pixelDataSize);
 	file.read(pixelData, pixelDataSize);
 	
@@ -96,8 +95,9 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 		}
 	}
 	
+	auto level = std::make_shared<Level>(LevelInformation(levelName, width, height, scrollSpeed, player, sky, entityList, collisionMap));
+	
 	auto texture = std::make_shared<Texture>(pixelData, width, height);
-	auto level = std::make_shared<Level>(levelName, width, height, scrollSpeed, player, sky, entityList, collisionMap);
 	_view->buffer(level, texture);
 	
 	return level;
