@@ -19,7 +19,6 @@ EventManager::EventManager() {
  * @param eventCallback Callback
  */
 void EventManager::registerEvent(std::string identifier, EventType eventType, eventCallback func) {
-	//TODO: Pointer des Callbacks als Identifikator
 	_eventMap[eventType][identifier] = func;
 }
 

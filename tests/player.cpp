@@ -5,8 +5,9 @@ int main(int argc, char** argv) {
 	
 	auto player = std::make_shared<Player>();
 	
+	
 	/**
-	 * Spieler kollidiert mit seinem eigenen Laser.
+	 * Test:		Spieler kollidiert mit seinem eigenen Laser.
 	 * 
 	 * Erwartung:	Leben bleibt auf 3, Raumschiff stürzt
 	 * 				nicht ab.
@@ -15,9 +16,9 @@ int main(int argc, char** argv) {
 	assert(player->getLives() == 3);
 	assert(player->hasCrashed() == false);
 	
-	    
+	
 	/**
-	 * Spieler kollidiert mit der Welt.
+	 * Test:		Spieler kollidiert mit der Welt.
 	 * 
 	 * Erwartung:	Leben werden von 3 auf 2 verringert
 	 * 				und _crashed wird auf TRUE gesetzt.
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
 	
 	
 	/**
-	 * Spieler bewegt sich nach oben.
+	 * Test:		Spieler bewegt sich nach oben.
 	 * 
 	 * Erwartung:	Y-Koordinate des Spielers wird um
 	 * 				seine Geschwindigkeit erhöht.
@@ -42,7 +43,7 @@ int main(int argc, char** argv) {
 	
 	
 	/**
-	 * Leben des Spielers wird auf 5 gesetzt.
+	 * Test:		Leben des Spielers wird auf 5 gesetzt.
 	 * 
 	 * Erwartung:	Spieler hat 5 Leben.
 	 */
@@ -51,8 +52,8 @@ int main(int argc, char** argv) {
 	
 	
 	/**
-	 * Treibstoff des Spielers wird über die maximale
-	 * Menge erhöht.
+	 * Test:		Treibstoff des Spielers wird über die
+	 * 				maximale Menge erhöht.
 	 * 
 	 * Erwartung:	Treibstoff wird nur auf 100 gesetzt.
 	 */
@@ -61,8 +62,8 @@ int main(int argc, char** argv) {
 	
 	
 	/**
-	 * Treibstoff des Spielers wird auf 0 gesetzt.
-	 * Anschließend tickt das onFuel() Event.
+	 * Test:		Treibstoff des Spielers wird auf 0 gesetzt.
+	 * 				Anschließend tickt das onFuel() Event.
 	 * 
 	 * Erwartung:	Treibstoff wird auf 0 gesetzt.
 	 * 				Geschwindigkeit des Spielers wird
@@ -73,6 +74,7 @@ int main(int argc, char** argv) {
 	player->onFuel();
 	assert(player->getSpeed() == 0);
 	assert(player->getVelocity() == Vector2(2, -2));
+	
 	
 	return 0;
 }

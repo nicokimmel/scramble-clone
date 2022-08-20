@@ -37,11 +37,16 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 	int scrollSpeed = byte_to_int16(headerBuffer, 10);
 	int entityCount = byte_to_int16(headerBuffer, 14);
 	
+	auto entityList = std::vector<std::shared_ptr<Entity>>();
+	
+	auto sky = std::make_shared<Sky>();
+	_view->buffer(sky);
+	_view->startAnimation(sky);
+	entityList.push_back(sky);
+	
 	auto player = std::make_shared<Player>();
 	_view->buffer(player);
 	_view->startAnimation(player);
-	
-	auto entityList = std::vector<std::shared_ptr<Entity>>();
 	entityList.push_back(player);
 	
 	for(int i = 0; i < entityCount; i++) {
@@ -92,7 +97,7 @@ std::shared_ptr<Level> LevelManager::load(std::string levelName) {
 	}
 	
 	auto texture = std::make_shared<Texture>(pixelData, width, height);
-	auto level = std::make_shared<Level>(levelName, width, height, scrollSpeed, player, entityList, collisionMap);
+	auto level = std::make_shared<Level>(levelName, width, height, scrollSpeed, player, sky, entityList, collisionMap);
 	_view->buffer(level, texture);
 	
 	return level;

@@ -1,6 +1,10 @@
 #include "entity.h"
 
-//TODO: Dokumentieren
+/**
+ * @brief Erstellt Objekt von Entity
+ * @details Setzt alle Attribute auf die
+ * 			Standardwerte.
+ */
 Entity::Entity() {
 	_physics = std::make_shared<Physics>();
 	_type = EntityType::NONE;

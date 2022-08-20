@@ -14,12 +14,14 @@
  * @param player Pointer auf Spielerobjekt
  * @param entityList Liste aller Entitäten
  */
-Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::shared_ptr<Player> player, std::vector<std::shared_ptr<Entity>> entityList, std::vector<int> collisionMap) {
+//TODO: LevelInformation struct zusammenfassen
+Level::Level(std::string name, uint width, uint height, uint scrollSpeed, std::shared_ptr<Player> player, std::shared_ptr<Sky> sky, std::vector<std::shared_ptr<Entity>> entityList, std::vector<int> collisionMap) {
 	_name = name;
 	_width = width;
 	_height = height;
 	_scrollSpeed = scrollSpeed;
 	_player = player;
+	_sky = sky;
 	_entityList = entityList;
 	_collisionMap = collisionMap;
 	_offset = 0;
@@ -252,6 +254,15 @@ std::shared_ptr<Player> Level::getPlayer() {
 }
 
 /**
+ * @brief Gibt die Himmelentität zurück
+ * 
+ * @return std::shared_ptr<Sky> Sternenhimmel
+ */
+std::shared_ptr<Sky> Level::getSky() {
+	return _sky;
+}
+
+/**
  * @brief Gibt Pointer auf Entitätenliste zurück
  * 
  * @return Pointer auf Entitätenliste
@@ -298,12 +309,5 @@ int Level::getAlpha(int x, int y) {
 	y = y/2;
 	
 	int index = y * _width + x;
-	
-	if(index < 0 || index > _collisionMap.size() - 1){
-		std::cout << "Return zero = " << index << "\n";
-		std::cout << "X = " << x << "  Y = " << y << "\n"; 
-	}
-	//TODO: Warum manchmal Segfault?
-	// Eventuelle Lösung: Index ausrechnen und auf Plausibilität prüfen.
 	return (index < 0 || index > _collisionMap.size() - 1) ? 0 : _collisionMap[index];
 }

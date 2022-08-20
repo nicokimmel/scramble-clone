@@ -3,9 +3,10 @@
 int main(int argc, char** argv) {
 	
 	auto missile = std::make_unique<Missile>();
-		
+	
+	
 	/**
-	 * Missile kollidiert mit der Welt.
+	 * Test:		Missile kollidiert mit der Welt.
 	 * 
 	 * Erwartung:	_crashed wird auf TRUE gesetzt.
 	 */
@@ -14,20 +15,20 @@ int main(int argc, char** argv) {
 	
 	
 	/**
-	 * Missile Update.
+	 * Test:		Missile Update wird von
+	 * 				GameLoop aufgerufen.
 	 * 
-	 * Erwartung:	_rotation ändert sich nach update.
-	 * 	    		_velocity ändert sich nach update.
+	 * Erwartung:	Rotation und Velocity ändern
+	 * 				sich, da die Missile losfliegt.
 	 */
-	auto oldRotation = missile->getRotation();
-	auto oldVelocity = missile->getVelocity();
-	for(int i = 400 ; i >= 0 ; i--) {
+	auto oldRot = missile->getRotation();
+	auto oldVel = missile->getVelocity();
+	for(int i = 0; i <= 400; i++) {
 		missile->update();
 	}
-	auto newRotation = missile->getRotation();
-	auto newVelocity = missile->getVelocity();
-	assert(newRotation != oldRotation);
-	assert(oldVelocity.getX() != newVelocity.getX());
-
+	assert(oldRot != missile->getRotation());
+	assert(oldVel != missile->getVelocity());
+	
+	
 	return 0;
 }

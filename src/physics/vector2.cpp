@@ -84,7 +84,12 @@ Vector2 Vector2::multiply(Vector2 vector) {
 	return *this;
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Überprüft Vektor auf Gleichheit
+ * 
+ * @param vector Zweiter Vektor
+ * @return bool Gleichheit
+ */
 bool Vector2::operator==(const Vector2 vector) {
 	if(_x == vector.getX()
 		&& _y == vector.getY()) {
@@ -93,7 +98,12 @@ bool Vector2::operator==(const Vector2 vector) {
 	return false;
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Überprüft Vektor auf Ungleichheit
+ * 
+ * @param vector Zweiter Vektor
+ * @return bool Ungleichheit
+ */
 bool Vector2::operator!=(const Vector2 vector) {
 	if(_x != vector.getX()
 		|| _y != vector.getY()) {
@@ -102,24 +112,44 @@ bool Vector2::operator!=(const Vector2 vector) {
 	return false;
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Addiert Vektor mit anderem Vektor
+ * 
+ * @param vector Zweiter Vektor
+ * @return Vector2 Vektor (Value)
+ */
 Vector2 Vector2::operator+(const Vector2 vector) {
 	return Vector2(_x + vector.getX(), _y + vector.getY());
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Addiert Vektor mit anderem Vektor
+ * 
+ * @param vector Zweiter Vektor
+ * @return Vector2 Vektor (Reference)
+ */
 Vector2 Vector2::operator+=(const Vector2 vector) {
 	_x += vector.getX();
 	_y += vector.getY();
 	return *this;
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Subtrahiert Vektor mit anderem Vektor
+ * 
+ * @param vector Zweiter Vektor
+ * @return Vector2 Vektor (Value)
+ */
 Vector2 Vector2::operator-(const Vector2 vector) {
 	return Vector2(_x - vector.getX(), _y - vector.getY());
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Subtrahiert Vektor mit anderem Vektor
+ * 
+ * @param vector Zweiter Vektor
+ * @return Vector2 Vektor (Reference)
+ */
 Vector2 Vector2::operator-=(const Vector2 vector) {
 	_x -= vector.getX();
 	_y -= vector.getY();

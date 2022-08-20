@@ -42,7 +42,8 @@ class View {
 		void stopAnimation(std::shared_ptr<Drawable>);
 		void clear();
 		void flip();
-		void tick();
+		void animate();
+		void animate(std::shared_ptr<Drawable>);
 		GLFWwindow* getWindow();
 		bool isWindowOpen();
 };

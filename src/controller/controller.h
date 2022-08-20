@@ -1,10 +1,11 @@
 #ifndef SCRAMBLE_CONTROLLER_H
 #define SCRAMBLE_CONTROLLER_H
-#include <iostream>
+
 #include "../utils/base.h"
 
 #include <map>
 #include <chrono>
+#include <algorithm>
 
 #include "../events/eventmanager.h"
 #include "../levels/levelmanager.h"
@@ -12,8 +13,6 @@
 #include "../view/view.h"
 #include "../physics/physics.h"
 #include "../physics/object.h"
-
-#include <algorithm>
 
 class Player;
 
@@ -39,6 +38,7 @@ class Controller {
 		void checkInput();
 		void checkPlayer();
 		void checkRockets();
+		void checkWindowBounds();
 		void changeLevel();
 		void debug();
 	public:

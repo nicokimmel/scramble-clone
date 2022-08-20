@@ -19,6 +19,9 @@ enum EventType {
 	INPUT, COLLISION
 };
 
+/**
+ * @brief Informationsblock für Update-Callbacks
+ */
 struct UpdateInformation {
 	uint ms;
 	callback func;

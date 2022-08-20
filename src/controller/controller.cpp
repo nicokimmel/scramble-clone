@@ -10,10 +10,10 @@
 Controller::Controller(std::shared_ptr<View> view) {
 	_view = view;
 	_frozen = false;
+	_physics = std::make_shared<Physics>();
 	_eventManager = std::make_shared<EventManager>();
 	_levelManager = std::make_shared<LevelManager>(view);
-	_physics = std::make_shared<Physics>();
-	_currentLevel = _levelManager->load("stageonesmall");
+	_currentLevel = _levelManager->load("stageonesmallpink");
 }
 
 /**
@@ -44,12 +44,23 @@ void Controller::init() {
 		_currentLevel->getPlayer()->onFuel();
 	});
 	
-	_eventManager->registerUpdate("viewTextureUpdate", 150, [this]() {
-		_view->tick();
+	_eventManager->registerUpdate("viewTextureUpdate", 100, [this]() {
+		_view->animate();
+	});
+	
+	_eventManager->registerUpdate("viewSkyTextureUpdate", 800, [this]() {
+		_view->animate(_currentLevel->getSky());
 	});
 }
 
-//TODO: Dokumentieren
+/**
+ * @brief Startet und steuert GameLoop
+ * @details Führt 60 mal pro Sekunde die update Funktionen
+ * 			aller Entitäten aus.
+ * 			Lässt Entitäten durch die View zeichnen.
+ * 			Lässt Kolission durch Phsyiscs überprüfen.
+ * 			Tastet auch den Input ab.
+ */
 void Controller::start() {
 	_running = true;
 	_ticks = 0, _fps = 0, _ups = 0;
@@ -93,6 +104,7 @@ void Controller::start() {
 				_physics->checkCollision(_currentLevel);
 				checkPlayer();
 				checkRockets();
+				checkWindowBounds();
 			}
 			
 			_eventManager->tick();
@@ -104,10 +116,10 @@ void Controller::start() {
 		}
 		
 		_view->clear();
-		_view->render(_currentLevel);
 		for(auto entity : _currentLevel->getEntityList()) {
 			_view->render(entity);
 		}
+		_view->render(_currentLevel);
 		_view->flip();
 		_fps++;
 		
@@ -202,22 +214,28 @@ void Controller::checkRockets() {
                 rocket->launch();
                 _view->startAnimation(rocket);
             }
-			if(rocket->getPosition().getY() > WINDOW_HEIGHT || rocket->getPosition().getX() + rocket->getSize().getX() < 0) {
-				_currentLevel->despawn(rocket);
+        }
+    }
+}
+
+/**
+ * @brief Überprüft ob Entitäten außerhalb des Fensters sind und entfernt sie.
+ */
+void Controller::checkWindowBounds() {
+	for(auto entity : _currentLevel->getEntityList()) {
+        if(entity->getType() == EntityType::ROCKET) {
+			if(entity->getPosition().getY() > WINDOW_HEIGHT || entity->getPosition().getX() + entity->getSize().getX() < 0) {
+				_currentLevel->despawn(entity);
 			}
         }
 		if(entity->getType() == EntityType::LASER) {
-            auto laser = std::static_pointer_cast<Laser>(entity);
-			if(laser->getPosition().getX() > WINDOW_WIDTH) {
-				_currentLevel->despawn(laser);
+			if(entity->getPosition().getX() > WINDOW_WIDTH) {
+				_currentLevel->despawn(entity);
 			}
         }
 		if(entity->getType() == EntityType::EXPLOSION) {
-            auto explosion = std::static_pointer_cast<Explosion>(entity);
-			if(explosion->getPosition().getY() > WINDOW_HEIGHT || explosion->getPosition().getX() + explosion->getSize().getX() < 0) {
-				std::cout << "TEST POS X EXPLSIOMN = " << explosion->getPosition().getX() << std::endl;
-				_currentLevel->despawn(explosion);
-				
+			if(entity->getPosition().getY() > WINDOW_HEIGHT || entity->getPosition().getX() + entity->getSize().getX() < 0) {
+				_currentLevel->despawn(entity);
 			}
         }
     }

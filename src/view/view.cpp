@@ -73,6 +73,11 @@ void View::init() {
 	sp.spriteCount = 7;
 	sp.spriteFile = "./assets/explosion-player.bmp";
 	_spriteList[ExplosionType::EPLAYER] = sp;
+	
+	sp.animationType = AnimationType::REPEAT;
+	sp.spriteCount = 4;
+	sp.spriteFile = "./assets/sky.bmp";
+	_spriteList[EntityType::SKY] = sp;
 }
 
 /**
@@ -179,18 +184,27 @@ void View::flip() {
 }
 
 /**
- * @brief Callbackfunktion für Animationen
- * @details Wird innerhalb einer registerUpdate() alle 150ms
- * 			aufgerufen um die Animation aller Entitäten zu
- * 			aktualisieren
- * 
- * @see Controller
- * @see EventManager
+ * @brief Setzt nächstes Sprite als aktuelles Sprite für alle Entitäten
+ * @details Lässt den Sternenhimmel aus, da dieser über die
+ * 			überladene animate() Funktion manuell animiert wird.
+ * 			Er besitzt eine langsamere Animation als der Rest.
  */
-void View::tick() {
+void View::animate() {
 	for(auto entry : _textureBuffer) {
-		entry.second->next();
+		if(entry.first->getIdentifier() == EntityType::SKY) {
+			continue;
+		}
+		_textureBuffer[entry.first]->next();
 	}
+}
+
+/**
+ * @brief Setzt nächstes Sprite als aktuelles Sprite
+ * 
+ * @param drawable Drawable Objekt
+ */
+void View::animate(std::shared_ptr<Drawable> drawable) {
+	_textureBuffer[drawable]->next();
 }
 
 /**
@@ -203,7 +217,7 @@ GLFWwindow* View::getWindow() {
 }
 
 /**
- * @brief Gibt zurück, ob das Fenster noch offen ist
+ * @brief Gibt zurück, ob Fenster offen
  * @details Wird verwendet um die GameLoop zu stoppen, falls das
  * 			Fenster geschlossen wird.
  * 
