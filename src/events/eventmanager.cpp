@@ -73,13 +73,14 @@ void EventManager::unregisterUpdate(std::string identifier) {
  * @param func Callbackfunktion
  */
 void EventManager::callLater(uint ms, callback func) {
-	std::string identifier = "callLater" + _callLaterId;
+	std::string identifier = "callLater" + std::to_string(_callLaterId);
 	_callLaterId++;
+	
+	std::cout << identifier << std::endl;
 	
 	registerUpdate(identifier, ms, [this, identifier, func]() {
 		unregisterUpdate(identifier);
 		std::invoke(func);
-		return true;
 	});
 }
 
@@ -87,24 +88,24 @@ void EventManager::callLater(uint ms, callback func) {
  * @brief Erhöht die Tickvariable des EventManagers
  * @details Wird genutzt um eine Taktfrequenz abzuleiten.
  * 			Erwartet eine Tickrate von 60/Sekunde.
- * 
  */
 void EventManager::tick() {
 	auto it = _updateMap.begin();
 	while(it != _updateMap.end()) {
 		UpdateInformation& info = it->second;
-		if(info.remove) {
-			it = _updateMap.erase(it);
-			continue;
-		} else {
-			++it;
-		}
 		if(_ticks % (info.ms * 60/1000) == 0) {
 			if(!info.first) {
 				std::invoke(info.func);
 			}
 			info.first = false;
+			
+			if(info.remove) {
+				std::cout << "REMOVED " << it->first << std::endl;
+				it = _updateMap.erase(it);
+				continue;
+			}
 		}
+		++it;
 	}
 	
 	_ticks++;

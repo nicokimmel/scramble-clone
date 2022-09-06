@@ -94,7 +94,7 @@ void Controller::start() {
 							auto explosion = _currentLevel->explode(entity);
 							_view->buffer(explosion);
 							_view->startAnimation(explosion);
-							_eventManager->callLater(500, [this, explosion]() {
+							_eventManager->callLater(800, [this, explosion]() {
 								_currentLevel->despawn(explosion);
 							});	
 						}
