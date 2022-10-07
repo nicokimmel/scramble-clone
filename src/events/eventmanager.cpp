@@ -76,8 +76,6 @@ void EventManager::callLater(uint ms, callback func) {
 	std::string identifier = "callLater" + std::to_string(_callLaterId);
 	_callLaterId++;
 	
-	std::cout << identifier << std::endl;
-	
 	registerUpdate(identifier, ms, [this, identifier, func]() {
 		unregisterUpdate(identifier);
 		std::invoke(func);
@@ -100,7 +98,6 @@ void EventManager::tick() {
 			info.first = false;
 			
 			if(info.remove) {
-				std::cout << "REMOVED " << it->first << std::endl;
 				it = _updateMap.erase(it);
 				continue;
 			}

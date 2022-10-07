@@ -8,15 +8,12 @@
 
 class Physics {
 	private:
-        
-	public:
-		bool checkCollision_Objects(std::shared_ptr<Object> a, std::shared_ptr<Object>b);
+        bool checkCollision_Objects(std::shared_ptr<Object> a, std::shared_ptr<Object>b);
         bool checkCollision_World(std::shared_ptr<Object> a, std::shared_ptr<World> b);
+	public:
         void checkCollision(std::shared_ptr<World>);
         void move(std::shared_ptr<Object> a);
         void move(std::shared_ptr<Object> a, int vx, int vy);
-        void fall(std::shared_ptr<Object> a, float gravity, int timestep);
-        void rotate(std::shared_ptr<Object> a, float angle, int timestep);
 };
 
 
